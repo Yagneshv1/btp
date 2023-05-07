@@ -5,6 +5,7 @@ from requests.auth import HTTPBasicAuth
 import nltk
 nltk.download("punkt")
 nltk.download("stopwords")
+import base64
 
 import re
 import spacy
@@ -25,12 +26,15 @@ es = Elasticsearch(
     http_auth=("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
 )
 # Set up the authentication credentials
-auth = HTTPBasicAuth("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q").__str__()
 
-# Set up the headers with the authentication credentials
+username = "elastic"
+password = "bHh5kxgNzIJocCKgnPfQ7E2q"
+
+credentials = f"{username}:{password}"
+encoded_credentials = base64.b64encode(credentials.encode()).decode()
 headers = {
-    "Authorization": "Basic " + auth,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": f"Basic {encoded_credentials}",
 }
 
 def make_hashes(password):
