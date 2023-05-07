@@ -554,10 +554,10 @@ if __name__ == "__main__":
 # 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
 
-	if response.status_code == 200:
-		st.write("Index settings updated successfully")
-	else:
-		st.write(f"Error updating index settings: {response.text}")
+# 	if response.status_code == 200:
+# 		st.write("Index settings updated successfully")
+# 	else:
+# 		st.write(f"Error updating index settings: {response.text}")
 
 	
 	st.title("IIT Palakkad Search Portal")
