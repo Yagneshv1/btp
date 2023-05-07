@@ -45,7 +45,7 @@ def check_hashes(password,hashed_text):
 		return hashed_text
 	return False
 
-conn = sqlite3.connect('data.db')
+conn = sqlite3.connect('dat1a.db')
 c = conn.cursor()
 def create_usertable():
 	c.execute('CREATE TABLE IF NOT EXISTS userstable(username TEXT PRIMARY KEY,password TEXT)')
