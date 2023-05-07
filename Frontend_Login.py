@@ -407,7 +407,7 @@ def main():
 		st.form_submit_button("Search", on_click=temp)
     
 if __name__ == "__main__":
-	new_settings = ''' json.dumps({
+	new_settings = json.dumps({
 		"settings": {
 			"analysis": {
 			"analyzer": {
@@ -439,7 +439,7 @@ if __name__ == "__main__":
 			}
 			}
 		}
-		})'''
+		})
 # 	es.indices.close(index="test2")
 # 	es.indices.put_settings(index="test2", headers=headers, body=settings)
 # 	es.indices.open(index="test2")
