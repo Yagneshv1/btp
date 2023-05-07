@@ -3,8 +3,8 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 import nltk
-# nltk.download("punkt")
-# nltk.download("stopwords")
+nltk.download("punkt")
+nltk.download("stopwords")
 import base64
 
 import re
@@ -153,14 +153,6 @@ def callback(count):
 		commit_message = "Update CSV file"
 		update_file_contents(repo, path, new_file_contents, commit_message)
 
-# 		with open(filename, 'a') as f_object:
-			
-# 		writer_object = writer(f_object)
-# 		# writer_object.writerow([st.session_state.search, st.session_state["link" + str(i)],st.session_state["score" + str(i)], st.session_state.option, st.session_state[str(i)]])
-# 		writer_object.writerow([st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]])
-
-# 		f_object.close()
-
 def retrieve_required_results(output, option, query):
 	st.write(output)
 	results_retrieved = output['hits']['hits']
@@ -221,7 +213,7 @@ def retrieve_required_results(output, option, query):
 				correct = st.radio("", ("✔️","✖️"), key = str(count), index = 1)
 		submitted_1 = st.form_submit_button("Submit Feedback", on_click=callback, args = [count])
 
-#spacy.cli.download("en_core_web_lg")
+spacy.cli.download("en_core_web_lg")
 
 def fetch(session, url, headers, json_body, option, query):
 	try:
