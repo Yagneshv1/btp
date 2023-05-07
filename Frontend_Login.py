@@ -145,7 +145,7 @@ def callback(count):
 			df.loc[len(df)] = new_row
 		except:
 			new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
-			row = pd.Series(new_row, index=df.columns)
+			#row = pd.Series(new_row, index=df.columns)
 			df = df.append(row, ignore_index=True)
 			#df.loc[len(df)] = new_row
 			
