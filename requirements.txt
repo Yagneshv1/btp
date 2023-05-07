@@ -3,4 +3,4 @@ nltk
 spacy
 bs4
 elasticsearch
-pip3 install enchant
+enchant
