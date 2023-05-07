@@ -22,15 +22,6 @@ import enchant
 import hashlib
 import sqlite3
 
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-
-gauth = GoogleAuth()
-gauth.LocalWebserverAuth()
-drive = GoogleDrive(gauth)
-
-file_list = drive.ListFile({'q': "title='evaluation_results.csv' and trashed=false"}).GetList()
-file = file_list[0]
 
 es = Elasticsearch(
     cloud_id="My_deployment:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRkYjMwYTJjNjRmMjc0ZTdiODRkNzM1NjU1YTJmM2VkYiRiY2Y2YWFjOTBiMTg0MTBkYjIyYzNlZjRmMGMyOGI3Ng==",
@@ -123,31 +114,12 @@ def callback(count):
 	filename = "evaluation_results.csv"
 	for i in range(1, count+1):
 		with open(filename, 'a') as f_object:
-			# Download the file contents
-			csv_data = file.GetContentString()
+			
+			writer_object = writer(f_object)
+			# writer_object.writerow([st.session_state.search, st.session_state["link" + str(i)],st.session_state["score" + str(i)], st.session_state.option, st.session_state[str(i)]])
+			writer_object.writerow([st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]])
 
-			# Parse the CSV data into a list of lists
-			reader = csv.reader(csv_data.splitlines())
-			csv_data_list = [row for row in reader]
-
-			# Modify the data in the list of lists
-			csv_data_list[0][0] = [st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
-
-			# Convert the modified list of lists back into a CSV string
-			csv_data = ''
-			writer = csv.writer(csv_data.splitlines())
-			writer.writerows(csv_data_list)
-			csv_data = csv_data.getvalue()
-
-			# Upload the new CSV data back to the file
-			file.SetContentString(csv_data)
-			file.Upload()
-# 			writer_object = writer(f_object)
-# 			# writer_object.writerow([st.session_state.search, st.session_state["link" + str(i)],st.session_state["score" + str(i)], st.session_state.option, st.session_state[str(i)]])
-# 			writer_object.writerow([st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]])
-# 			file.SetContentFile(file_name)
-# 			file.Upload()
-# 			#f_object.close()
+			f_object.close()
 
 def retrieve_required_results(output, option, query):
 	#st.write(output)
