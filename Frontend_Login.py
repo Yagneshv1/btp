@@ -1,6 +1,7 @@
 from elasticsearch import Elasticsearch
 import json
 import requests
+from requests.auth import HTTPBasicAuth
 import nltk
 nltk.download("punkt")
 nltk.download("stopwords")
