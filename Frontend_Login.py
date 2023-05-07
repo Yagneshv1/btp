@@ -426,8 +426,9 @@ if __name__ == "__main__":
 			}
 			}
 		}'''
+	headers = {'Content-Type' : 'application/json',}
 	es.indices.close(index="test2")
-	es.indices.put_settings(index="test2", body=settings)
+	es.indices.put_settings(index="test2", headers=headers, body=settings)
 	es.indices.open(index="test2")
 
 # 	requests.post(f"http://localhost:9200/test_image/_close")
