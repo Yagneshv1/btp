@@ -394,7 +394,7 @@ def main():
 		st.form_submit_button("Search", on_click=temp)
     
 if __name__ == "__main__":
-	settings = " {
+	settings = ''' {
 			"analysis": {
 			"analyzer": {
 				"search_analyzer": {
@@ -424,7 +424,7 @@ if __name__ == "__main__":
 				}
 			}
 			}
-		}"
+		}'''
 	es.indices.close(index=test2)
 	es.indices.put_settings(index=test2, body=settings)
 	es.indices.open(index=test2)
