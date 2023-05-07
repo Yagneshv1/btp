@@ -138,6 +138,7 @@ def callback(count):
 	for i in range(1, count+1):
 		repo = g.get_repo(f'{owner}/{repo_name}')
 		df = pd.DataFrame()
+		df.columns = ['Type of query', 'Query', 'Proximity Value', 'Score', 'Link', 'Feedback']
 		try:
 			file_contents = get_file_contents(repo, path)
 			df = pd.read_csv(io.StringIO(file_contents))
