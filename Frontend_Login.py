@@ -449,9 +449,9 @@ if __name__ == "__main__":
 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_open")
 
 	if response.status_code == 200:
-		print("Index settings updated successfully")
+		st.write("Index settings updated successfully")
 	else:
-		print(f"Error updating index settings: {response.text}")
+		st.write(f"Error updating index settings: {response.text}")
 
 	st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")
 	st.title("IIT Palakkad Search Portal")
