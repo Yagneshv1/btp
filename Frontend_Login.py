@@ -547,7 +547,7 @@ if __name__ == "__main__":
 		}
 		})
 	es.indices.close(index="test_image")
-	es.indices.put_settings(index="test_image", headers=headers, body=settings)
+	es.indices.put_settings(index="test_image", headers=headers, body=new_settings)
 	es.indices.open(index="test_image")
 
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
