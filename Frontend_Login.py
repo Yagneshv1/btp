@@ -509,9 +509,9 @@ if __name__ == "__main__":
 # 	es.indices.put_settings(index="test2", headers=headers, body=settings)
 # 	es.indices.open(index="test2")
 
-	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_close")
-	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_settings", headers= headers, data = new_settings)
-	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_open")
+# 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_close")
+# 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_settings", headers= headers, data = new_settings)
+# 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_open")
 
 	if response.status_code == 200:
 		st.write("Index settings updated successfully")
