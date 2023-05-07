@@ -29,7 +29,7 @@ auth = HTTPBasicAuth("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
 
 # Set up the headers with the authentication credentials
 headers = {
-    "Authorization": "Basic " + auth,
+    "Authorization": auth,
     "Content-Type": "application/json"
 }
 
