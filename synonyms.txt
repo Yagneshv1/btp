@@ -1,0 +1,66 @@
+IITPKD, IIT Palakkad, Indian Institute of technology Palakkad
+CDC, Career Development Centre, Career Development Center
+BAC, Board of Academic Courses
+BOS, Board of Students
+BoR, Board of Research
+ESSENCE, Environmental Sciences and Sustainable Engineering Centre
+kpal, Koninika Pal
+CET, Centre for Education Technology
+SAC, Student Affairs Council
+HPC, High Performace Computing Cluster
+CFMM, Central Facility for Materials and Manufacturing Engineering
+CIF, Central Instrumentation Facility
+CMFF, Central Micro-Nano Fabrication Facility
+ICSR, IC & SR, Centre for Industry Collaboration and Sponsored Research
+GRC, Graduate Research Council
+CREDS, Centre for Research and Education in Data Science
+CCI, Center for Computational Imaging
+BoG, Board of Governors
+IAR, International and Alumni Relations
+MSME, Micro, Small & Medium Enterprises
+IDC, Institute Disciplinary Committee
+EAYL, Earn As You Learn
+FA, Faculty Advisor
+EWD, Engineering Works Department
+MRBS, Room Booking System
+IAC, Industry Academia Conclave
+TECHIN, Technology Innovation Foundation
+GSCOE, Global Sanitation Centre of Excellence
+TFS, The Fleet Street
+IPTIF, IIT Palakkad Technology IHub Foundation
+LMS, Moodle
+Sknayar, Sunitha K Nayar
+svmula, Subrahmanyam Mula
+Shk, S H Kulkarni
+ppk, Piyush P Kurur
+kvns, KVN Surendra
+HVRM, HVR Mittal, Hari Vansh Rai Mittal
+crjayan, C R Jayanarayanan
+assekhar, A Seshadri Sekhar
+MME, Manufacturing and Materials Engineering
+PEPS, Power Electronics and Power Systems
+SOCD, System on Chip Design
+MCAM, CAM, Computing and Mathematics
+DS, Data Science
+CS, CSE, Computer Science and Engineering
+EE, Electrical Engineering
+ME, Mechanical Engineering
+CE, Civil Engineering
+Vadya, Music Club
+Sync to Beat, Dance Club
+DAC, Data Analysis Club
+TRC, The Robotics Club
+Shutterbug, Photography Club
+Grafica, Arts Club
+Akshar, Literary Arts Society
+Bioscope, film-making and media club
+YACC, Yet Another Coding Club
+Novare, Trekking Club
+Qriosity, Quiz Club
+YOGSHALA, Yoga Club
+MuSE, Museum of Science and Technology
+Ratham, Automotive Club
+TPO, Training and Placement Officer
+BoB, Battle of Bands
+SPM, Software Product Management
+
