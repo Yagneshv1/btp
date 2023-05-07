@@ -190,9 +190,9 @@ def results(user_query, option, proximity_value=0):
 	session = requests.Session()
 	uri=""
 	if option != "Image":
-		uri='http://localhost:9200/test2/_search/?size=20'
+		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=20'
 	else:
-		uri='http://localhost:9200/test_image/_search/?size=20'
+		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=20'
 	headers = {'Content-Type' : 'application/json',}
 	json_body = ""
 	if option == "Phrase":
