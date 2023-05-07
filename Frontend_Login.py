@@ -105,7 +105,7 @@ def levenshtein_strings(word, distance):
             if levenshtein_distance(new_word, word) <= distance and d.check(new_word):
                 result.add(new_word)
     return result
-spacy.download("en_core_web_lg")
+
 @st.cache(allow_output_mutation=True)
 def load_model():
 	return spacy.load("en_core_web_lg")
@@ -181,7 +181,7 @@ def retrieve_required_results(output, option, query):
 				correct = st.radio("", ("✔️","✖️"), key = str(count), index = 1)
 		submitted_1 = st.form_submit_button("Submit Feedback", on_click=callback, args = [count])
 
-# spacy.cli.download("en_core_web_lg")
+spacy.cli.download("en_core_web_lg")
 
 def fetch(session, url, headers, json_body, option, query):
 	try:
