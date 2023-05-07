@@ -3,4 +3,4 @@ nltk
 spacy
 bs4
 elasticsearch
-enchant2
+libenchant
