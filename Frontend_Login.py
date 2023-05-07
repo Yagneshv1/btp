@@ -543,15 +543,15 @@ if __name__ == "__main__":
 # 	es.indices.open(index="test_image")
 
 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
-	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
+# 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
 	
 
-	if response.status_code == 200:
-		st.write("Index settings updated successfully")
-	else:
-		st.write(f"Error updating index settings: {response.text}")
+# 	if response.status_code == 200:
+# 		st.write("Index settings updated successfully")
+# 	else:
+# 		st.write(f"Error updating index settings: {response.text}")
 
-	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
+# 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
 	st.title("IIT Palakkad Search Portal")
 	st.sidebar.image("iit-palakkad-logo.png")
 	
