@@ -405,7 +405,7 @@ def main():
 		_ = st.number_input("Enter the value for Proximity Search", key="prox_value")
 		
 		st.form_submit_button("Search", on_click=temp)
-    
+st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")    
 if __name__ == "__main__":
 	new_settings = json.dumps({
 		"settings": {
@@ -453,7 +453,7 @@ if __name__ == "__main__":
 	else:
 		st.write(f"Error updating index settings: {response.text}")
 
-	st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")
+	
 	st.title("IIT Palakkad Search Portal")
 	st.sidebar.image("iit-palakkad-logo.png")
 	
