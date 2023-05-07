@@ -1,7 +1,6 @@
 from elasticsearch import Elasticsearch
 import json
 import requests
-from requests.auth import HTTPBasicAuth
 import nltk
 # nltk.download("punkt")
 # nltk.download("stopwords")
@@ -333,28 +332,6 @@ def results(user_query, option, proximity_value=0):
 		print(json_body)
 	
 	elif option == "Keyword":
-		
-		# json_body = '''{
-		# 				"query":
-		# 						{
-		# 							"bool":
-		# 							{
-		# 								"should":[
-		# 										{"match": {"title": {"boost" : 2, "query" : "user_query",  "analyzer": "search_analyzer"}}}, 
-		# 										{"match": {"text":  {"boost" : 1, "query" : "user_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}}
-		# 										],
-		# 								"minimum_should_match" : 1
-		# 							}
-		# 						},
-		# 				"highlight": 
-		# 						{
-		# 						"fields" : 
-		# 								{
-		# 									"text" : {}, "title" : {}
-		# 								}
-		# 						}
-		# 				}
-		# '''\
 		json_body = '''
         {
             "query": 
