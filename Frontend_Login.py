@@ -394,8 +394,7 @@ def main():
 		st.form_submit_button("Search", on_click=temp)
     
 if __name__ == "__main__":
-	new_settings = json.dumps({
-		"settings": {
+	settings = " {
 			"analysis": {
 			"analyzer": {
 				"search_analyzer": {
@@ -425,22 +424,19 @@ if __name__ == "__main__":
 				}
 			}
 			}
-		}
-		})
-	
-	headers = {'Content-Type' : 'application/json',}
-	requests.post(f"http://localhost:9200/test2/_close")
-	response = requests.put(f"http://localhost:9200/test2/_settings", headers= headers, data = new_settings)
-	requests.post(f"http://localhost:9200/test2/_open")
+		}"
+	es.indices.close(index=test2)
+	es.indices.put_settings(index=test2, body=settings)
+	es.indices.open(index=test2)
 
-	requests.post(f"http://localhost:9200/test_image/_close")
-	response = requests.put(f"http://localhost:9200/test_image/_settings", headers= headers, data = new_settings)
-	requests.post(f"http://localhost:9200/test_image/_open")
+# 	requests.post(f"http://localhost:9200/test_image/_close")
+# 	response = requests.put(f"http://localhost:9200/test_image/_settings", headers= headers, data = new_settings)
+# 	requests.post(f"http://localhost:9200/test_image/_open")
 
-	if response.status_code == 200:
-		print("Index settings updated successfully")
-	else:
-		print(f"Error updating index settings: {response.text}")
+# 	if response.status_code == 200:
+# 		print("Index settings updated successfully")
+# 	else:
+# 		print(f"Error updating index settings: {response.text}")
 
 	st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")
 	st.title("IIT Palakkad Search Portal")
