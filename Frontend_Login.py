@@ -121,7 +121,7 @@ def callback(count):
 			f_object.close()
 
 def retrieve_required_results(output, option, query):
-	print(output)
+	st.write(output)
 	results_retrieved = output['hits']['hits']
 	
 	if len(results_retrieved) == 0:
