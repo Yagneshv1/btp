@@ -32,7 +32,7 @@ g = Github('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')
 
 # Github repo details
 owner = 'Yagneshv1'
-repo = 'btp'
+repo_name = 'btp'
 path = 'btp/evaluation_results.csv'
 
 # Get file contents as string
@@ -136,7 +136,7 @@ def load_model():
 def callback(count):
 	#filename = "evaluation_results.csv"
 	for i in range(1, count+1):
-		repo = g.get_repo(f'{owner}/{repo}')
+		repo = g.get_repo(f'{owner}/{repo_name}')
 		file_contents = get_file_contents(repo, path)
 		df = pd.read_csv(io.StringIO(file_contents))
 		new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
