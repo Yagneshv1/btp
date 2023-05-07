@@ -3,5 +3,5 @@ nltk
 spacy
 bs4
 elasticsearch
-libenchant-dev
+libenchant
 pyenchant
