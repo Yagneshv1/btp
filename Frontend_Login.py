@@ -3,8 +3,8 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 import nltk
-nltk.download("punkt")
-nltk.download("stopwords")
+# nltk.download("punkt")
+# nltk.download("stopwords")
 import base64
 
 import re
