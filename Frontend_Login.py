@@ -25,11 +25,11 @@ es = Elasticsearch(
     http_auth=("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
 )
 # Set up the authentication credentials
-auth = HTTPBasicAuth("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
+auth = HTTPBasicAuth("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q").__str__()
 
 # Set up the headers with the authentication credentials
 headers = {
-    "Authorization": auth,
+    "Authorization": "Basic " + auth,
     "Content-Type": "application/json"
 }
 
