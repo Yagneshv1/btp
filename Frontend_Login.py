@@ -1,3 +1,4 @@
+from elasticsearch import Elasticsearch
 import json
 import requests
 import nltk
@@ -17,6 +18,10 @@ stops = set(stopwords.words("english"))
 import enchant
 import hashlib
 import sqlite3 
+es = Elasticsearch(
+    cloud_id="My_deployment:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRkYjMwYTJjNjRmMjc0ZTdiODRkNzM1NjU1YTJmM2VkYiRiY2Y2YWFjOTBiMTg0MTBkYjIyYzNlZjRmMGMyOGI3Ng==",
+    http_auth=("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
+)
 
 def make_hashes(password):
 	return hashlib.sha256(str.encode(password)).hexdigest()
