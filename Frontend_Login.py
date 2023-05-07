@@ -23,6 +23,14 @@ es = Elasticsearch(
     cloud_id="My_deployment:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRkYjMwYTJjNjRmMjc0ZTdiODRkNzM1NjU1YTJmM2VkYiRiY2Y2YWFjOTBiMTg0MTBkYjIyYzNlZjRmMGMyOGI3Ng==",
     http_auth=("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
 )
+# Set up the authentication credentials
+auth = HTTPBasicAuth("elastic", "bHh5kxgNzIJocCKgnPfQ7E2q")
+
+# Set up the headers with the authentication credentials
+headers = {
+    "Authorization": "Basic " + auth,
+    "Content-Type": "application/json"
+}
 
 def make_hashes(password):
 	return hashlib.sha256(str.encode(password)).hexdigest()
@@ -193,7 +201,6 @@ def results(user_query, option, proximity_value=0):
 		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=20'
 	else:
 		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=20'
-	headers = {'Content-Type' : 'application/json',}
 	json_body = ""
 	if option == "Phrase":
 		nlp = load_model()
@@ -428,7 +435,6 @@ if __name__ == "__main__":
 			}
 		}
 		})'''
-	headers = {'Content-Type' : 'application/json',}
 # 	es.indices.close(index="test2")
 # 	es.indices.put_settings(index="test2", headers=headers, body=settings)
 # 	es.indices.open(index="test2")
