@@ -181,7 +181,7 @@ def retrieve_required_results(output, option, query):
 				correct = st.radio("", ("✔️","✖️"), key = str(count), index = 1)
 		submitted_1 = st.form_submit_button("Submit Feedback", on_click=callback, args = [count])
 
-spacy.cli.download("en_core_web_lg")
+#spacy.cli.download("en_core_web_lg")
 
 def fetch(session, url, headers, json_body, option, query):
 	try:
