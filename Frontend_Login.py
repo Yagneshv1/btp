@@ -154,7 +154,7 @@ def callback(count):
 		update_file_contents(repo, path, new_file_contents, commit_message)
 
 def retrieve_required_results(output, option, query):
-	st.write(output)
+	#st.write(output)
 	results_retrieved = output['hits']['hits']
 	
 	if len(results_retrieved) == 0:
@@ -542,47 +542,47 @@ if __name__ == "__main__":
 # 	es.indices.put_settings(index="test_image", headers=headers, body=new_settings)
 # 	es.indices.open(index="test_image")
 
-	#requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
-	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
+# 	#requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
+# 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
 	
 
-	if response.status_code == 200:
-		st.write("Index settings updated successfully")
-	else:
-		st.write(f"Error updating index settings: {response.text}")
+# 	if response.status_code == 200:
+# 		st.write("Index settings updated successfully")
+# 	else:
+# 		st.write(f"Error updating index settings: {response.text}")
 
-	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
+# 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
 	st.title("IIT Palakkad Search Portal")
 	st.sidebar.image("iit-palakkad-logo.png")
 	
-# 	menu = ["Login","SignUp"]
-# 	choice = st.sidebar.selectbox("Menu",menu)
+	menu = ["Login","SignUp"]
+	choice = st.sidebar.selectbox("Menu",menu)
 	
-# 	if choice == "Login":
-# 		username = st.sidebar.text_input("User Name", key="text_input")
-# 		password = st.sidebar.text_input("Password", type='password')
+	if choice == "Login":
+		username = st.sidebar.text_input("User Name", key="text_input")
+		password = st.sidebar.text_input("Password", type='password')
 
-# 		if st.sidebar.checkbox("Login"):
-# 			create_usertable()
-# 			hashed_pswd = make_hashes(password)
-# 			result = login_user(username,check_hashes(password,hashed_pswd))
-# 			if result:
-# 				st.success("Logged In as {}".format(username))
-# 				main()
-# 				password = ""
-# 			else:
-# 				st.warning("Incorrect Username/Password")
+		if st.sidebar.checkbox("Login"):
+			create_usertable()
+			hashed_pswd = make_hashes(password)
+			result = login_user(username,check_hashes(password,hashed_pswd))
+			if result:
+				st.success("Logged In as {}".format(username))
+				main()
+				password = ""
+			else:
+				st.warning("Incorrect Username/Password")
 
-# 	elif choice == "SignUp":
-# 		st.subheader("Create New Account")
-# 		new_user = st.text_input("Username")
-# 		new_password = st.text_input("New Password",type='password', value = '')
+	elif choice == "SignUp":
+		st.subheader("Create New Account")
+		new_user = st.text_input("Username")
+		new_password = st.text_input("New Password",type='password', value = '')
 
-# 		if st.button("Signup"):
-# 			create_usertable()
-# 			try:
-# 				add_userdata(new_user,make_hashes(new_password))
-# 				st.success("You have successfully created a valid Account")
-# 				st.info("Go to Login Menu to login")
-# 			except Exception as e:
-# 				st.write("A user already exists with the name. Please choose a different name")
+		if st.button("Signup"):
+			create_usertable()
+			try:
+				add_userdata(new_user,make_hashes(new_password))
+				st.success("You have successfully created a valid Account")
+				st.info("Go to Login Menu to login")
+			except Exception as e:
+				st.write("A user already exists with the name. Please choose a different name")
