@@ -22,6 +22,29 @@ import enchant
 import hashlib
 import sqlite3
 
+import pandas as pd
+import base64
+import io
+from github import Github
+
+# Github credentials
+g = Github('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')
+
+# Github repo details
+owner = 'Yagneshv1'
+repo = 'btp'
+path = 'btp/evaluation_results.csv'
+
+# Get file contents as string
+def get_file_contents(repo, file_path):
+    contents = repo.get_contents(file_path)
+    return base64.b64decode(contents.content).decode("utf-8")
+
+# Update file contents on Github
+def update_file_contents(repo, file_path, new_contents, commit_message):
+    contents = repo.get_contents(file_path)
+    repo.update_file(contents.path, commit_message, new_contents, contents.sha)
+
 
 es = Elasticsearch(
     cloud_id="My_deployment:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRkYjMwYTJjNjRmMjc0ZTdiODRkNzM1NjU1YTJmM2VkYiRiY2Y2YWFjOTBiMTg0MTBkYjIyYzNlZjRmMGMyOGI3Ng==",
@@ -111,15 +134,24 @@ def load_model():
 	return spacy.load("en_core_web_lg")
 
 def callback(count):
-	filename = "evaluation_results.csv"
+	#filename = "evaluation_results.csv"
 	for i in range(1, count+1):
-		with open(filename, 'a') as f_object:
-			
-			writer_object = writer(f_object)
-			# writer_object.writerow([st.session_state.search, st.session_state["link" + str(i)],st.session_state["score" + str(i)], st.session_state.option, st.session_state[str(i)]])
-			writer_object.writerow([st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]])
+		repo = g.get_repo(f'{owner}/{repo}')
+    		file_contents = get_file_contents(repo, path)
+    		df = pd.read_csv(io.StringIO(file_contents))
+		new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
+		df.loc[len(df)] = new_row
+		new_file_contents = df.to_csv(index=False)
+        	commit_message = "Update CSV file"
+        	update_file_contents(repo, path, new_file_contents, commit_message)
 
-			f_object.close()
+# 		with open(filename, 'a') as f_object:
+			
+# 		writer_object = writer(f_object)
+# 		# writer_object.writerow([st.session_state.search, st.session_state["link" + str(i)],st.session_state["score" + str(i)], st.session_state.option, st.session_state[str(i)]])
+# 		writer_object.writerow([st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]])
+
+# 		f_object.close()
 
 def retrieve_required_results(output, option, query):
 	#st.write(output)
