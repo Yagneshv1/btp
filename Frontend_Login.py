@@ -428,7 +428,7 @@ if __name__ == "__main__":
 			}
 		}
 		})'''
-# 	headers = {'Content-Type' : 'application/json',}
+	headers = {'Content-Type' : 'application/json',}
 # 	es.indices.close(index="test2")
 # 	es.indices.put_settings(index="test2", headers=headers, body=settings)
 # 	es.indices.open(index="test2")
