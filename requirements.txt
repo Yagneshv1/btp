@@ -2,5 +2,5 @@ streamlit
 nltk
 spacy
 bs4
-enchant
 elasticsearch
+pip3 install enchant
