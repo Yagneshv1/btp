@@ -33,7 +33,7 @@ g = Github('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')
 # Github repo details
 owner = 'Yagneshv1'
 repo_name = 'btp'
-path = 'btp/evaluation_results.csv'
+path = 'evaluation_results.csv'
 
 # Get file contents as string
 def get_file_contents(repo, file_path):
