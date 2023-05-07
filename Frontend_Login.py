@@ -425,7 +425,7 @@ if __name__ == "__main__":
 				"my_synonyms": 
 				{
 					"type": "synonym_graph",
-					"synonyms_path": "synonyms.txt"
+					"synonyms_path": "https://drive.google.com/file/d/1lTV68f897lvpg70Y6KtxQ--jRvP0KB6Z/view?usp=sharing"
 				},
 				"all_synonyms":{
 					"type" : "synonym_graph",
