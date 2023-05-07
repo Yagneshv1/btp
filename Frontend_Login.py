@@ -105,7 +105,7 @@ def levenshtein_strings(word, distance):
             if levenshtein_distance(new_word, word) <= distance and d.check(new_word):
                 result.add(new_word)
     return result
-
+spacy.download("en_core_web_lg")
 @st.cache(allow_output_mutation=True)
 def load_model():
 	return spacy.load("en_core_web_lg")
