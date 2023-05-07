@@ -426,9 +426,9 @@ if __name__ == "__main__":
 			}
 			}
 		}'''
-	es.indices.close(index=test2)
-	es.indices.put_settings(index=test2, body=settings)
-	es.indices.open(index=test2)
+	es.indices.close(index="test2")
+	es.indices.put_settings(index="test2", body=settings)
+	es.indices.open(index="test2")
 
 # 	requests.post(f"http://localhost:9200/test_image/_close")
 # 	response = requests.put(f"http://localhost:9200/test_image/_settings", headers= headers, data = new_settings)
