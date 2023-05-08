@@ -152,7 +152,7 @@ def callback(count):
 	st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
 
 def retrieve_required_results(output, option, query):
-	st.write(output)
+	#st.write(output)
 	results_retrieved = output['hits']['hits']
 	
 	if len(results_retrieved) == 0:
@@ -286,7 +286,7 @@ def results(user_query, option, proximity_value=0):
 		print(json_body)
 	elif option == "Quotes":
 		match_phrase = re.findall(r'"(.*?)"',user_query)
-		print(match_phrase)
+		st.write(match_phrase)
 		if len(match_phrase)==0:
 			st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
 			return
