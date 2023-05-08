@@ -342,10 +342,10 @@ def results(user_query, option, proximity_value=0):
 						{
 							"should": 
 							[
-								{ "match": { "title": { "query" : "user_query", "boost": 10 }}},
-								{"match": {"text":  {"query" : "user_query", "boost": 7}}},
-								{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost": 5 }}},
-								{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":3}}},
+								{ "match": { "title": { "query" : "user_query", "boost": 7 }}},
+								{"match": {"text":  {"query" : "user_query", "boost": 5}}},
+								{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost":3}}},
+								{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
 								{ "match": { "text": { "query" : "user_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}}
 							]
 						}
