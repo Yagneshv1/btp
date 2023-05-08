@@ -77,7 +77,6 @@ def add_userdata(username,password):
 	conn.commit()
 	with open('data.db', 'rb') as f:
     		file_content = f.read()
-	st.write(c.execute('SELECT * FROM userstable'))
 	update_file_contents(repo, 'data.db', file_content, "Updated user details")
 
 def login_user(username,password):
