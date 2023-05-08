@@ -4,8 +4,6 @@ import requests
 import nltk
 # nltk.download("punkt")
 # nltk.download("stopwords")
-import base64
-
 import re
 import spacy
 from nltk.tokenize import word_tokenize
@@ -15,7 +13,6 @@ import numpy as np
 from warnings import simplefilter 
 simplefilter(action='ignore', category=DeprecationWarning)
 import streamlit as st
-from csv import writer
 stops = set(stopwords.words("english"))
 import enchant
 import hashlib
@@ -345,8 +342,10 @@ def results(user_query, option, proximity_value=0):
 						{
 							"should": 
 							[
-								{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost": 10 }}},
-								{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":5}}},
+								{ "match": { "title": { "query" : "user_query", "boost": 10 }}},
+								{"match": {"text":  {"query" : "user_query", "boost": 7}}},
+								{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost": 5 }}},
+								{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":3}}},
 								{ "match": { "text": { "query" : "user_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}}
 							]
 						}
@@ -516,19 +515,14 @@ if __name__ == "__main__":
 			}
 		}
 		})
-# 	es.indices.close(index="test_image")
-# 	es.indices.put_settings(index="test_image", headers=headers, body=new_settings)
-# 	es.indices.open(index="test_image")
+
 
 # 	#requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
 # 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
-	
-
 # 	if response.status_code == 200:
 # 		st.write("Index settings updated successfully")
 # 	else:
 # 		st.write(f"Error updating index settings: {response.text}")
-
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
 	st.title("IIT Palakkad Search Portal")
 	st.sidebar.image("iit-palakkad-logo.png")
