@@ -414,6 +414,7 @@ def main():
 		st.session_state['submitted_1'] = 0
 
 	with st.form("form"):
+		st.write("Please Enlcose the mandatory words to include in matches in double quotes only for **Quotes Query**")
 		_ = st.text_input('Please Enter Your Search Query', key="search")
 
 		_ = st.selectbox(
