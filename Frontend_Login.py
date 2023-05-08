@@ -328,7 +328,7 @@ def results(user_query, option, proximity_value=0):
 			}
 			'''
 		json_body = json_body.replace("match_part", boolean_query)
-		print(json_body)
+		st.write(json_body)
 	
 	elif option == "Keyword":
 		pattern = re.compile('\W')
