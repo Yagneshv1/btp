@@ -152,7 +152,7 @@ def callback(count):
 	st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
 
 def retrieve_required_results(output, option, query):
-	st.write(output)
+	#st.write(output)
 	results_retrieved = output['hits']['hits']
 	
 	if len(results_retrieved) == 0:
@@ -392,7 +392,7 @@ def results(user_query, option, proximity_value=0):
 												{"match": {"processed_desc":{"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
 												{"match": {"title": {"boost" : 2, "query" : "user_query", "analyzer": "search_analyzer"}}},
 												{"match": {"section": {"boost" : 3, "query" : "user_query", "analyzer": "search_analyzer"}}},
-												{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}},
+												{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}}
 												],
 										"minimum_should_match" : 1
 									}
