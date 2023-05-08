@@ -105,7 +105,7 @@ def levenshtein_distance(s1, s2):
     return matrix[len(s1)][len(s2)]
     
 def levenshtein_strings(word, distance):
-    st.write(word)
+    #st.write(word)
     # Generate all strings within the given Levenshtein distance from the word
     result = set()
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
@@ -329,7 +329,7 @@ def results(user_query, option, proximity_value=0):
 			}
 			'''
 		json_body = json_body.replace("match_part", boolean_query)
-		st.write(json_body)
+		#st.write(json_body)
 	
 	elif option == "Keyword":
 		pattern = re.compile('[^\w\- ]')
