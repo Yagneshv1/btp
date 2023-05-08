@@ -284,7 +284,7 @@ def results(user_query, option, proximity_value=0):
 		
 		json_body = json_body.replace("match_part", final_query)
 		json_body = json_body.replace("prox", str(int(proximity_value)))
-		st.write(json_body)
+		
 	elif option == "Quotes":
 		match_phrase = re.findall(r'"(.*?)"',user_query)
 		if len(match_phrase)==0:
