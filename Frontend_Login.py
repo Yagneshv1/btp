@@ -333,6 +333,7 @@ def results(user_query, option, proximity_value=0):
 	elif option == "Keyword":
 		pattern = re.compile('[\w\- ]')
 		user_query = re.sub(pattern, '', user_query)
+		st.write(user_query)
 		json_body = '''
         {
             "query": 
