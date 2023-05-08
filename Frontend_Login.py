@@ -240,6 +240,7 @@ def results(user_query, option, proximity_value=0):
 		nlp = load_model()
 		pattern = re.compile('[^\w\- ]')
 		user_query = re.sub(pattern, '', user_query)
+		st.write(user_query)
 		doc = nlp(user_query)
 		ners = [str(i) for i in doc.ents]
 		
