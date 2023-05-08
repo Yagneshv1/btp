@@ -293,6 +293,9 @@ def results(user_query, option, proximity_value=0):
 			return
 		
 		user_query = re.sub(r'"(.*?)"', "", user_query)
+		pattern = re.compile('[^\w\- ]')
+		user_query = re.sub(pattern, '', user_query)
+		
 		non_quote_terms = []
 		for i in user_query.split():
 			if i not in stops:
