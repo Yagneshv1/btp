@@ -105,6 +105,7 @@ def levenshtein_distance(s1, s2):
     return matrix[len(s1)][len(s2)]
     
 def levenshtein_strings(word, distance):
+    st.write(word)
     # Generate all strings within the given Levenshtein distance from the word
     result = set()
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
