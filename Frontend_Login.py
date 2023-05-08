@@ -256,7 +256,7 @@ def results(user_query, option, proximity_value=0):
 
 		final_query = ' '.join(final_query_words)		
 		print(final_query)
-		pattern = re.compile('\W')
+		pattern = re.compile('[\w\- ]')
 		final_query = re.sub(pattern, '', final_query)
 		
 		json_body = '''
@@ -331,7 +331,7 @@ def results(user_query, option, proximity_value=0):
 		st.write(json_body)
 	
 	elif option == "Keyword":
-		pattern = re.compile('\W')
+		pattern = re.compile('[\w\- ]')
 		user_query = re.sub(pattern, '', user_query)
 		json_body = '''
         {
@@ -378,7 +378,7 @@ def results(user_query, option, proximity_value=0):
 				processed_tokens.append(i)
 
 		user_query = ' '.join(processed_tokens)
-		pattern = re.compile('\W')
+		pattern = re.compile('[\w\- ]')
 		user_query = re.sub(pattern, '', user_query)
 		json_body = """{
 						"query":
