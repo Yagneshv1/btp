@@ -73,9 +73,11 @@ def create_usertable():
 
 
 def add_userdata(username,password):
-
 	c.execute('INSERT INTO userstable(username,password) VALUES (?,?)',(username,password))
 	conn.commit()
+	with open('data.db', 'rb') as f:
+    		file_content = f.read()
+	update_file_contents(repo, 'data.db', file_content, "Updated user details")
 
 def login_user(username,password):
 	c.execute('SELECT * FROM userstable WHERE username =? AND password = ?',(username,password))
