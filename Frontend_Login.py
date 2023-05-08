@@ -387,9 +387,12 @@ def results(user_query, option, proximity_value=0):
 									"bool":
 									{
 										"should":[
+												{"match": {"title": {"boost" : 5, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+												{"match": {"section": {"boost" : 6, "query" : "user_query", "analyzer": "search_analyzer"_basic}}},
+												{"match": {"processed_desc":{"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
 												{"match": {"title": {"boost" : 2, "query" : "user_query", "analyzer": "search_analyzer"}}},
-												{"match": {"section": {"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer"}}},
-												{"match": {"processed_desc":{"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}}
+												{"match": {"section": {"boost" : 3, "query" : "user_query", "analyzer": "search_analyzer"}}},
+												{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}},
 												],
 										"minimum_should_match" : 1
 									}
@@ -424,7 +427,7 @@ def main():
 st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")    
 if __name__ == "__main__":
 	new_settings = json.dumps({
-		"settings": {
+		"settings": {'
 			"analysis": {
 			"analyzer": {
 				"search_analyzer": {
