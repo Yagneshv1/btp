@@ -287,7 +287,8 @@ def results(user_query, option, proximity_value=0):
 		match_phrase = re.findall(r'"(.*?)"',user_query)
 		print(match_phrase)
 		if len(match_phrase)==0:
-			raise Exception("No Quotes Found in Specified Query")
+			st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
+			return
 		
 		user_query = re.sub(r'"(.*?)"', "", user_query)
 		non_quote_terms = []
