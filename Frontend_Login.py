@@ -420,8 +420,9 @@ def main():
 		_ = st.selectbox(
 		'Choose your search method',
 		('Keyword', 'Phrase', 'Quotes', 'Image'), key='option')
-
-		_ = st.number_input("Enter the value for Proximity Search", key="prox_value")
+		
+		st.write("Use this only for Phrase queries. For other queries, let it be zero.")
+		_ = st.number_input("Proximity Window Value", key="prox_value")
 		
 		st.form_submit_button("Search", on_click=temp)
 st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")    
