@@ -152,7 +152,7 @@ def callback(count):
 	st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
 
 def retrieve_required_results(output, option, query):
-	st.write(output)
+	#st.write(output)
 	results_retrieved = output['hits']['hits']
 	
 	if len(results_retrieved) == 0:
