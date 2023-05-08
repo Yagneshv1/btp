@@ -256,7 +256,7 @@ def results(user_query, option, proximity_value=0):
 
 		final_query = ' '.join(final_query_words)		
 		print(final_query)
-		pattern = re.compile('[\w\- ]')
+		pattern = re.compile('[^\w\- ]')
 		final_query = re.sub(pattern, '', final_query)
 		
 		json_body = '''
