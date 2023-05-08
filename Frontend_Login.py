@@ -436,8 +436,7 @@ if __name__ == "__main__":
 					"stop"
 				]
 				},
-				{
-					"search_analyzer_basic": {
+				"search_analyzer_basic": {
 					"tokenizer": "standard",
 					"filter": [
 						"lowercase",
