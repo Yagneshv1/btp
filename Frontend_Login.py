@@ -427,7 +427,7 @@ def main():
 st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")    
 if __name__ == "__main__":
 	new_settings = json.dumps({
-		"settings": {'
+		"settings": {
 			"analysis": {
 			"analyzer": {
 				"search_analyzer": {
