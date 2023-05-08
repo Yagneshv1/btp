@@ -157,7 +157,6 @@ def retrieve_required_results(output, option, query):
 	
 	if len(results_retrieved) == 0:
 		st.write('**No result Found!**')
-		
 		suggestions = levenshtein_strings(query, 2)
 		if len(suggestions) != 0:
 			st.write("A few suggestions of the queries are as follows:")
@@ -230,7 +229,6 @@ def fetch(session, url, headers, json_body, option, query):
 
 
 def results(user_query, option, proximity_value=0):
-	print('Query is', user_query)
 	session = requests.Session()
 	uri=""
 	if option != "Image":
