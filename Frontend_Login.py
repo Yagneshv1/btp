@@ -152,7 +152,7 @@ def callback(count):
 	st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
 
 def retrieve_required_results(output, option, query):
-	st.write(output)
+	#st.write(output)
 	results_retrieved = output['hits']['hits']
 	
 	if len(results_retrieved) == 0:
@@ -378,7 +378,7 @@ def results(user_query, option, proximity_value=0):
 				processed_tokens.append(i)
 
 		user_query = ' '.join(processed_tokens)
-		pattern = re.compile('[\w\- ]')
+		pattern = re.compile('[^\w\- ]')
 		user_query = re.sub(pattern, '', user_query)
 		st.write(user_query)
 		json_body = """{
