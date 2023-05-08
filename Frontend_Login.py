@@ -578,4 +578,4 @@ if __name__ == "__main__":
 				st.success("You have successfully created a valid Account")
 				st.info("Go to Login Menu to login")
 			except Exception as e:
-				st.write("A user already exists with the name. Please choose a different name")
+				st.write(e)
