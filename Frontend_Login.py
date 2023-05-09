@@ -235,9 +235,9 @@ def results(user_query, option, proximity_value=0):
 	session = requests.Session()
 	uri=""
 	if option != "Image":
-		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=20'
+		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=10'
 	else:
-		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=20'
+		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
 	json_body = ""
 	if option == "Phrase":
 		nlp = load_model()
