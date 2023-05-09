@@ -442,7 +442,7 @@ if __name__ == "__main__":
 					"my_synonyms",
 					"all_synonyms",
 					"stop",
-					"stem"
+					"stemmer"
 				]
 				},
 				"search_analyzer_basic": {
@@ -451,7 +451,7 @@ if __name__ == "__main__":
 						"lowercase",
 						"my_synonyms",
 						"stop",
-						"stem"
+						"stemmer"
 					]
 				}
 			},
