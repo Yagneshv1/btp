@@ -432,7 +432,7 @@ if __name__ == "__main__":
 			session = requests.Session()
 			uri=""
 			if st.session_state.option != "Image":
-				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=10'
+				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_search/?size=10'
 			else:
 				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
 			json_body = ""
@@ -532,6 +532,8 @@ if __name__ == "__main__":
 			elif st.session_state.option == "Keyword":
 				pattern = re.compile('[^\w\- ]')
 				user_query = re.sub(pattern, '', user_query)
+				processed_query = pre_process(user_query)
+				combined_query = user_query + ' ' + processed_query
 				json_body = '''
 				{
 					"query": 
@@ -545,11 +547,14 @@ if __name__ == "__main__":
 								{
 									"should": 
 									[
-										{ "match": { "title": { "query" : "user_query", "analyzer": "search_analyzer_basic", "boost": 7 }}},
-										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer_basic", "boost": 5}}},
-										{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost":3}}},
-										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
-										{ "match": { "text": { "query" : "user_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}}
+										{ "match": { "title": { "query" : "processed_query", "analyzer": "search_analyzer_basic", "boost": 7 }}},
+										{"match": {"processed_text":  {"query" : "processed_query", "analyzer": "search_analyzer_basic", "boost": 5}}},
+										{"match": {"text":  {"query" : "combined_query", "analyzer" : "search_analyzer_basic", "boost": 0}}},
+										{ "match": { "title": { "query" : "processed_query",  "analyzer": "search_analyzer", "boost":3}}},
+										{"match": {"processed_text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
+										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost": 0}}},
+										{ "match": { "processed_text": { "query" : "processed_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}},
+										{ "match": { "text": { "query" : "combined_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer", "boost" : 0}}}
 									]
 								}
 							},
