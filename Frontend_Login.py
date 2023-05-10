@@ -150,14 +150,14 @@ def callback(count):
 	#filename = "evaluation_results.csv"
 	for i in range(1, count+1):
 		repo = g.get_repo(f'{owner}/{repo_name}')
-		df = pd.DataFrame(columns = ['Type of query', 'Query', 'Proximity Value', 'Score', 'Link', 'Rank', 'Feedback'])
+		df = pd.DataFrame(columns = ['Type of query', 'Query', 'Proximity Value', 'Rank', 'Score', 'Link', 'Rank', 'Feedback'])
 		try:
 			file_contents = get_file_contents(repo, path)
 			df = pd.read_csv(io.StringIO(file_contents))
-			new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
+			new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, i, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
 			df.loc[len(df)] = new_row
 		except:
-			new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
+			new_row = [st.session_state.option, st.session_state.search, st.session_state.prox_value, i, st.session_state["score" + str(i)], st.session_state["link" + str(i)], st.session_state[str(i)]]
 			#row = pd.Series(new_row, index=df.columns)
 			#df = df.append(row, ignore_index=True)
 			df.loc[len(df)] = new_row
