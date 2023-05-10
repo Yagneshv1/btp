@@ -232,7 +232,7 @@ def retrieve_required_results(output, option, query):
 			st.write('\n\n')
 		with col2:
 			correct = st.radio("", ("✔️","✖️","➖"), key = str(count), index = 2)
-	st.session_state.count = count
+	#st.session_state.count = count
 
 #spacy.cli.download("en_core_web_lg")
 
