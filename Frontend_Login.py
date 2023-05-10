@@ -269,7 +269,7 @@ def main():
 
 		_ = st.selectbox(
 		'Choose your search method',
-		('Keyword', 'Phrase', 'Quotes', 'Image'), key='option')
+		('Select Query Type', 'Keyword', 'Phrase', 'Quotes', 'Image'), key='option')
 		
 		st.write("Use this only for Phrase queries. For other queries, let it be zero.")
 		_ = st.number_input("Proximity Window Value", key="prox_value")
