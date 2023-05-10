@@ -486,7 +486,7 @@ if __name__ == "__main__":
 				
 				json_body = json_body.replace("match_part", final_query)
 				json_body = json_body.replace("prox", str(int(st.session_state.prox_value)))
-				
+				st.write(json_body)
 			elif st.session_state.option == "Quotes":
 				match_phrase = re.findall(r'"(.*?)"',user_query)
 				if len(match_phrase)==0:
