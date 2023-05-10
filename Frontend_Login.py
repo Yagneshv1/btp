@@ -417,8 +417,8 @@ if __name__ == "__main__":
 	if choice == "Login":
 		username = st.sidebar.text_input("User Name", key="text_input")
 		password = st.sidebar.text_input("Password", type='password')
-
-		if st.sidebar.checkbox("Login"):
+		login = st.sidebar.checkbox("Login")
+		if login:
 			create_usertable()
 			hashed_pswd = make_hashes(password)
 			result = login_user(username,check_hashes(password,hashed_pswd))
@@ -442,7 +442,7 @@ if __name__ == "__main__":
 				st.info("Go to Login Menu to login")
 			except Exception as e:
 				st.write("A user already exists with that name. Please choose a different name")
-	if st.session_state.load and st.sidebar.checkbox("Login"):
+	if st.session_state.load and login:
 		with st.form("form_2"):
 			user_query = st.session_state.search
 			st.session_state.load = 1
