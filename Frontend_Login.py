@@ -262,8 +262,7 @@ def callback_1():
 def main():
 	if 'submitted_1' not in st.session_state:
 		st.session_state['submitted_1'] = 0
-	if 'search' not in st.session_state:
-		st.session_state['search'] = ""
+	
 	with st.form("my_form"):
 		st.write("Please Enlcose the mandatory words to include in matches in double quotes only for **Quotes Query**")
 		_ = st.text_input('Please Enter Your Search Query', key="search")
@@ -409,7 +408,9 @@ if __name__ == "__main__":
 	st.sidebar.image("iit-palakkad-logo.png")
 	if "load" not in st.session_state:
 		st.session_state.load = 0
-	
+	if 'search' not in st.session_state:
+		st.session_state['search'] = ""
+		
 	menu = ["Login","SignUp"]
 	choice = st.sidebar.selectbox("Menu",menu)
 	
