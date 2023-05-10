@@ -173,6 +173,7 @@ def retrieve_required_results(output, option, query):
 	
 	if len(results_retrieved) == 0:
 		st.write('**No result Found!**')
+		st.session_state.count = 0
 		suggestions = levenshtein_strings(query, 2)
 		if len(suggestions) != 0:
 			st.write("A few suggestions of the queries are as follows:")
@@ -232,7 +233,7 @@ def retrieve_required_results(output, option, query):
 			st.write('\n\n')
 		with col2:
 			correct = st.radio("", ("✔️","✖️","➖"), key = str(count), index = 2)
-	#st.session_state.count = count
+	st.session_state.count = count
 
 #spacy.cli.download("en_core_web_lg")
 
