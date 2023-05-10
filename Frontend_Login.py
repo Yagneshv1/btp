@@ -442,7 +442,7 @@ if __name__ == "__main__":
 				st.info("Go to Login Menu to login")
 			except Exception as e:
 				st.write("A user already exists with that name. Please choose a different name")
-	if st.session_state.load:
+	if st.session_state.load and st.sidebar.checkbox("Login"):
 		with st.form("form_2"):
 			user_query = st.session_state.search
 			st.session_state.load = 1
