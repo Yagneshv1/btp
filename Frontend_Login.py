@@ -11,7 +11,7 @@ from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 import numpy as np
 from warnings import simplefilter 
-simplefilter(action='ignore', category=DeprecationWarning)
+simplefilter(action='ignore')
 import streamlit as st
 stops = set(stopwords.words("english"))
 import enchant
@@ -137,7 +137,7 @@ def callback(count):
 	#filename = "evaluation_results.csv"
 	for i in range(1, count+1):
 		repo = g.get_repo(f'{owner}/{repo_name}')
-		df = pd.DataFrame(columns = ['Type of query', 'Query', 'Proximity Value', 'Score', 'Link', 'Feedback'])
+		df = pd.DataFrame(columns = ['Type of query', 'Query', 'Proximity Value', 'Score', 'Link', 'Rank', 'Feedback'])
 		try:
 			file_contents = get_file_contents(repo, path)
 			df = pd.read_csv(io.StringIO(file_contents))
@@ -152,7 +152,7 @@ def callback(count):
 		new_file_contents = df.to_csv(index=False)
 		commit_message = "Update CSV file"
 		update_file_contents(repo, path, new_file_contents, commit_message)
-	st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
+		# st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
 
 def retrieve_required_results(output, option, query):
 	#st.write(output)
@@ -168,50 +168,49 @@ def retrieve_required_results(output, option, query):
 		return
 	
 	count = 0
-	with st.form("form_1"):
-		for result in results_retrieved:
-			count += 1
-			col1, col2 = st.columns([4,1])
-			with col1:
-				st.write('Document Score:', result['_score'])
-				st.write('Page Link:', result['_source']['page_link'])
-				st.session_state['link' + str(count)] = result['_source']['page_link']
-				st.session_state['score' + str(count)] = result['_score']
-				if option != "Image":
-					snippet = ''
-					try:
-						matches = result['highlight']['text']
-						for a in matches:
-							snippet += a + '...'
-						snippet = snippet.replace("<em>", "**")
-						snippet = snippet.replace("</em>", "**")
+	for result in results_retrieved:
+		count += 1
+		col1, col2 = st.columns([4,1])
+		with col1:
+			st.write('Document Score:', result['_score'])
+			st.write('Page Link:', result['_source']['page_link'])
+			st.session_state['link' + str(count)] = result['_source']['page_link']
+			st.session_state['score' + str(count)] = result['_score']
+			if option != "Image":
+				snippet = ''
+				try:
+					matches = result['highlight']['text']
+					for a in matches:
+						snippet += a + '...'
+					snippet = snippet.replace("<em>", "**")
+					snippet = snippet.replace("</em>", "**")
 
-						st.write('Page Title:', result['_source']['title'])
-						
-					except:
-						matches = result['highlight']['title']
-						titl = ''
-						for a in matches:
-							titl += a
-						titl = titl.replace("<em>", "**")
-						titl = titl.replace("</em>", "**")
-						st.markdown(titl, unsafe_allow_html=False)
+					st.write('Page Title:', result['_source']['title'])
+					
+				except:
+					matches = result['highlight']['title']
+					titl = ''
+					for a in matches:
+						titl += a
+					titl = titl.replace("<em>", "**")
+					titl = titl.replace("</em>", "**")
+					st.markdown(titl, unsafe_allow_html=False)
 
-						snippet = result['_source']['text'][:250] + '...'
-					st.markdown(snippet, unsafe_allow_html=False)
-				else:
-					url = result['_source']['image_link']
-					st.session_state['link' + str(count)] = result['_source']['image_link']
-					if not url.startswith("https://"):
-						url = "https://" + url
+					snippet = result['_source']['text'][:250] + '...'
+				st.markdown(snippet, unsafe_allow_html=False)
+			else:
+				url = result['_source']['image_link']
+				st.session_state['link' + str(count)] = result['_source']['image_link']
+				if not url.startswith("https://"):
+					url = "https://" + url
 
-					st.image(url)
-					st.write('Image URL:', result['_source']['image_link'])
-				
-				st.write('\n\n')
-			with col2:
-				correct = st.radio("", ("✔️","✖️"), key = str(count), index = 1)
-		submitted_1 = st.form_submit_button("Submit Feedback", on_click=callback, args = [count])
+				st.image(url)
+				st.write('Image URL:', result['_source']['image_link'])
+			
+			st.write('\n\n')
+		with col2:
+			correct = st.radio("", ("✔️","✖️","➖"), key = str(count), index = 2)
+	st.session_state.count = count
 
 #spacy.cli.download("en_core_web_lg")
 
@@ -230,194 +229,15 @@ def fetch(session, url, headers, json_body, option, query):
 		print(resp_text)	
 	retrieve_required_results(resp_text, option, query)
 
-
-def results(user_query, option, proximity_value=0):
-	session = requests.Session()
-	uri=""
-	if option != "Image":
-		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=10'
-	else:
-		uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
-	json_body = ""
-	if option == "Phrase":
-		nlp = load_model()
-		pattern = re.compile('[^\w\- ]')
-		user_query = re.sub(pattern, '', user_query)
-		doc = nlp(user_query)
-		ners = [str(i) for i in doc.ents]
-		
-		tokens = []
-		for ent in ners:
-			for token in nltk.word_tokenize(ent):
-				tokens.append(token)
-
-		for i in user_query.split():
-			if i not in tokens and i not in stops:
-				ners.append(i.lower())
-
-		final_query_words = []
-		for i in ners:
-			final_query_words.append(''' \\"''' + i + '''\\" ''')
-
-		final_query = ' '.join(final_query_words)		
-		print(final_query)
-		
-		
-		json_body = '''
-		{	"query": 
-			{
-				"multi_match" : {
-				"query":      "match_part",
-				"type":       "phrase",
-				"fields":     [ "title^4", "text" ],
-				"analyzer": "search_analyzer",
-				"slop" : "prox"
-				}
-			},
-			"highlight": 
-			{
-				"fields" : 
-				{
-					"text" : {}, "title" : {}
-				}
-			}
-		}'''
-		
-		
-		
-		json_body = json_body.replace("match_part", final_query)
-		json_body = json_body.replace("prox", str(int(proximity_value)))
-		
-	elif option == "Quotes":
-		match_phrase = re.findall(r'"(.*?)"',user_query)
-		if len(match_phrase)==0:
-			st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
-			return
-		
-		user_query = re.sub(r'"(.*?)"', "", user_query)
-		non_quote_terms = []
-		for i in user_query.split():
-			if i not in stops:
-				non_quote_terms.append(i)
-
-		boolean_query = ""
-		for i in match_phrase:
-			if len(boolean_query) == 0:
-				boolean_query = "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
-			else:
-				boolean_query = boolean_query + " AND " +  "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
-		if len(boolean_query) != 0:
-			boolean_query = "(" + boolean_query + ")"
-
-		#Default fuzziness is 2 sufficient to catch 80% of spelling mistakes
-		for i in non_quote_terms:
-			boolean_query = boolean_query + " OR " + "(" + i + "~)"
-
-		print(boolean_query)
-		json_body = '''
-			{
-				"query" : 
-				{
-					"query_string": {
-						"query": "match_part",
-						"fields" : ["title^2", "text"]
-					}
-				},
-				"highlight": {
-					"fields" : {
-					"text" : {}, "title" : {}
-					}
-				}
-			}
-			'''
-		json_body = json_body.replace("match_part", boolean_query)
-		#st.write(json_body)
-	
-	elif option == "Keyword":
-		pattern = re.compile('[^\w\- ]')
-		user_query = re.sub(pattern, '', user_query)
-		json_body = '''
-        {
-            "query": 
-			{
-                "function_score": 
-				{
-					"query": 
-					{
-						"bool": 
-					
-						{
-							"should": 
-							[
-								{ "match": { "title": { "query" : "user_query", "analyzer": "search_analyzer_basic", "boost": 7 }}},
-								{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer_basic", "boost": 5}}},
-								{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost":3}}},
-								{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
-								{ "match": { "text": { "query" : "user_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}}
-							]
-						}
-					},
-					"score_mode": "sum",
-					"boost_mode": "sum"
-                }
-            }
-            	,
-					"highlight": 
-						{
-							"fields" : 
-							{
-								"text" : {}, "title" : {}
-							}
-						}		
-	    }
-        '''
-
-		json_body = json_body.replace("user_query", user_query)
-	
-	elif option == "Image":
-		processed_tokens = []
-		for i in nltk.word_tokenize(user_query):
-			if i not in stops:
-				processed_tokens.append(i)
-
-		user_query = ' '.join(processed_tokens)
-		pattern = re.compile('[^\w\- ]')
-		user_query = re.sub(pattern, '', user_query)
-		st.write(user_query)
-		json_body = """{
-						"query":
-								{
-									"bool":
-									{
-										"should":[
-												{"match": {"title": {"boost" : 5, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
-												{"match": {"section": {"boost" : 6, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
-												{"match": {"processed_desc":{"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
-												{"match": {"title": {"boost" : 2, "query" : "user_query", "analyzer": "search_analyzer"}}},
-												{"match": {"section": {"boost" : 3, "query" : "user_query", "analyzer": "search_analyzer"}}},
-												{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}}
-												],
-										"minimum_should_match" : 1
-									}
-								}
-						}
-		"""
-		json_body = json_body.replace("user_query", user_query)
-		#st.write(json_body)
-
-	fetch(session, uri, headers, json_body, option, user_query)
-
-def temp():
-	if st.session_state.option == 'Phrase':
-		results(st.session_state.search, st.session_state.option, st.session_state.prox_value)
-	else:
-		results(st.session_state.search, st.session_state.option)
+def callback_1():
+	st.session_state.load = 1
+	for i in range(1, 11):
+		st.session_state[str(i)] = "➖"
 
 def main():
 	if 'submitted_1' not in st.session_state:
 		st.session_state['submitted_1'] = 0
-
-	with st.form("form"):
+	with st.form("my_form"):
 		st.write("Please Enlcose the mandatory words to include in matches in double quotes only for **Quotes Query**")
 		_ = st.text_input('Please Enter Your Search Query', key="search")
 
@@ -428,7 +248,9 @@ def main():
 		st.write("Use this only for Phrase queries. For other queries, let it be zero.")
 		_ = st.number_input("Proximity Window Value", key="prox_value")
 		
-		st.form_submit_button("Search", on_click=temp)
+		_ = st.form_submit_button("Search", on_click = callback_1)
+	
+
 st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")    
 if __name__ == "__main__":
 	new_settings = json.dumps({
@@ -441,8 +263,7 @@ if __name__ == "__main__":
 					"lowercase",
 					"my_synonyms",
 					"all_synonyms",
-					"stop",
-					"stemmer"
+					"stop"
 				]
 				},
 				"search_analyzer_basic": {
@@ -450,8 +271,7 @@ if __name__ == "__main__":
 					"filter": [
 						"lowercase",
 						"my_synonyms",
-						"stop",
-						"stemmer"
+						"stop"
 					]
 				}
 			},
@@ -542,7 +362,7 @@ if __name__ == "__main__":
 
 
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
-# 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_settings", headers= headers, data = new_settings)
+# 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_settings", headers= headers, data = new_settings)
 # 	if response.status_code == 200:
 # 		st.write("Index settings updated successfully")
 # 	else:
@@ -550,6 +370,8 @@ if __name__ == "__main__":
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
 	st.title("IIT Palakkad Search Portal")
 	st.sidebar.image("iit-palakkad-logo.png")
+	if "load" not in st.session_state:
+		st.session_state.load = 0
 	
 	menu = ["Login","SignUp"]
 	choice = st.sidebar.selectbox("Menu",menu)
@@ -582,3 +404,181 @@ if __name__ == "__main__":
 				st.info("Go to Login Menu to login")
 			except Exception as e:
 				st.write("A user already exists with that name. Please choose a different name")
+	if st.session_state.load:
+		with st.form("form_2"):
+			user_query = st.session_state.search
+			st.session_state.load = 1
+			session = requests.Session()
+			uri=""
+			if st.session_state.option != "Image":
+				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test2/_search/?size=10'
+			else:
+				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
+			json_body = ""
+			if st.session_state.option == "Phrase":
+				nlp = load_model()
+				pattern = re.compile('[^\w\- ]')
+				user_query = re.sub(pattern, '', user_query)
+				doc = nlp(user_query)
+				ners = [str(i) for i in doc.ents]
+				
+				tokens = []
+				for ent in ners:
+					for token in nltk.word_tokenize(ent):
+						tokens.append(token)
+
+				for i in user_query.split():
+					if i not in tokens and i not in stops:
+						ners.append(i.lower())
+
+				final_query_words = []
+				for i in ners:
+					final_query_words.append(''' \\"''' + i + '''\\" ''')
+
+				final_query = ' '.join(final_query_words)		
+				print(final_query)
+				
+				
+				json_body = '''
+				{	"query": 
+					{
+						"multi_match" : {
+						"query":      "match_part",
+						"type":       "phrase",
+						"fields":     [ "title^4", "text" ],
+						"analyzer": "search_analyzer",
+						"slop" : "prox"
+						}
+					},
+					"highlight": 
+					{
+						"fields" : 
+						{
+							"text" : {}, "title" : {}
+						}
+					}
+				}'''
+				
+				
+				
+				json_body = json_body.replace("match_part", final_query)
+				json_body = json_body.replace("prox", str(int(st.session_state.prox_value)))
+				
+			elif st.session_state.option == "Quotes":
+				match_phrase = re.findall(r'"(.*?)"',user_query)
+				if len(match_phrase)==0:
+					st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
+				else:
+					user_query = re.sub(r'"(.*?)"', "", user_query)
+					non_quote_terms = []
+					for i in user_query.split():
+						if i not in stops:
+							non_quote_terms.append(i)
+
+					boolean_query = ""
+					for i in match_phrase:
+						if len(boolean_query) == 0:
+							boolean_query = "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
+						else:
+							boolean_query = boolean_query + " AND " +  "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
+					if len(boolean_query) != 0:
+						boolean_query = "(" + boolean_query + ")"
+
+					#Default fuzziness is 2 sufficient to catch 80% of spelling mistakes
+					for i in non_quote_terms:
+						boolean_query = boolean_query + " OR " + "(" + i + "~)"
+
+					print(boolean_query)
+					json_body = '''
+						{
+							"query" : 
+							{
+								"query_string": {
+									"query": "match_part",
+									"fields" : ["title^2", "text"]
+								}
+							},
+							"highlight": {
+								"fields" : {
+								"text" : {}, "title" : {}
+								}
+							}
+						}
+						'''
+					json_body = json_body.replace("match_part", boolean_query)
+					#st.write(json_body)
+				
+			elif st.session_state.option == "Keyword":
+				pattern = re.compile('[^\w\- ]')
+				user_query = re.sub(pattern, '', user_query)
+				json_body = '''
+				{
+					"query": 
+					{
+						"function_score": 
+						{
+							"query": 
+							{
+								"bool": 
+							
+								{
+									"should": 
+									[
+										{ "match": { "title": { "query" : "user_query", "analyzer": "search_analyzer_basic", "boost": 7 }}},
+										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer_basic", "boost": 5}}},
+										{ "match": { "title": { "query" : "user_query",  "analyzer": "search_analyzer", "boost":3}}},
+										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
+										{ "match": { "text": { "query" : "user_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}}
+									]
+								}
+							},
+							"score_mode": "sum",
+							"boost_mode": "sum"
+						}
+					}
+						,
+							"highlight": 
+								{
+									"fields" : 
+									{
+										"text" : {}, "title" : {}
+									}
+								}		
+				}
+				'''
+
+				json_body = json_body.replace("user_query", user_query)
+			
+			elif st.session_state.option == "Image":
+				processed_tokens = []
+				for i in nltk.word_tokenize(user_query):
+					if i not in stops:
+						processed_tokens.append(i)
+
+				user_query = ' '.join(processed_tokens)
+				pattern = re.compile('[^\w\- ]')
+				user_query = re.sub(pattern, '', user_query)
+				st.write(user_query)
+				json_body = """{
+								"query":
+										{
+											"bool":
+											{
+												"should":[
+														{"match": {"title": {"boost" : 5, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+														{"match": {"section": {"boost" : 6, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+														{"match": {"processed_desc":{"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+														{"match": {"title": {"boost" : 2, "query" : "user_query", "analyzer": "search_analyzer"}}},
+														{"match": {"section": {"boost" : 3, "query" : "user_query", "analyzer": "search_analyzer"}}},
+														{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}}
+														],
+												"minimum_should_match" : 1
+											}
+										}
+								}
+				"""
+				json_body = json_body.replace("user_query", user_query)
+				#st.write(json_body)
+
+			fetch(session, uri, headers, json_body, st.session_state.option, user_query)
+			submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
