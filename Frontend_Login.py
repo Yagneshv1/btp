@@ -452,6 +452,7 @@ if __name__ == "__main__":
 			else:
 				uri=f'https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size={max_results}'
 			json_body = ""
+			flag = 1
 			if st.session_state.option == "Phrase":
 				nlp = load_model()
 				pattern = re.compile('[^\w\- ]')
@@ -504,6 +505,7 @@ if __name__ == "__main__":
 				match_phrase = re.findall(r'"(.*?)"',user_query)
 				if len(match_phrase)==0:
 					st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
+					flag = 0
 				else:
 					user_query = re.sub(r'"(.*?)"', "", user_query)
 					non_quote_terms = []
@@ -621,6 +623,6 @@ if __name__ == "__main__":
 				"""
 				json_body = json_body.replace("user_query", user_query)
 				#st.write(json_body)
-
-			fetch(session, uri, headers, json_body, st.session_state.option, user_query)
-			submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
+			if flag:
+				fetch(session, uri, headers, json_body, st.session_state.option, user_query)
+				submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
