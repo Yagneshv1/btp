@@ -509,6 +509,7 @@ if __name__ == "__main__":
 					st.session_state.count = 1
 					st.session_state["score1"] = 0
 					st.session_state["link1"] = "No Quotes in Given Query"
+					st.session_state["1"] = "➖"
 				else:
 					user_query = re.sub(r'"(.*?)"', "", user_query)
 					non_quote_terms = []
