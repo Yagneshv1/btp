@@ -275,7 +275,7 @@ def main():
 		_ = st.number_input("Proximity Window Value", key="prox_value")
 		
 		_ = st.form_submit_button("Search", on_click = callback_1)
-		st.write("**Please submit the feedback of the results through submit feedback button at the bottom of the results!!**)
+		st.write("**Please submit the feedback of the results through submit feedback button at the end of results!!**")
 	
 
 st.set_page_config(page_title="IIT PALAKKAD SEARCH PORTAL")    
