@@ -173,7 +173,9 @@ def retrieve_required_results(output, option, query):
 	
 	if len(results_retrieved) == 0:
 		st.write('**No result Found!**')
-		st.session_state.count = 0
+		st.session_state.count = 1
+		st.session_state["score1"] = 0
+		st.session_state["link1"] = "No Result Found"
 		suggestions = levenshtein_strings(query, 2)
 		if len(suggestions) != 0:
 			st.write("A few suggestions of the queries are as follows:")
