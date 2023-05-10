@@ -634,4 +634,6 @@ if __name__ == "__main__":
 				#st.write(json_body)
 			if flag:
 				fetch(session, uri, headers, json_body, st.session_state.option, user_query)
-			submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
+				submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
+			else:
+				_ = st.form_submit_button("Start Searching")
