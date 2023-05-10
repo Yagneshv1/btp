@@ -506,6 +506,9 @@ if __name__ == "__main__":
 				if len(match_phrase)==0:
 					st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
 					flag = 0
+					st.session_state.count = 1
+					st.session_state["score1"] = 0
+					st.session_state["link1"] = "No Quotes in Given Query"
 				else:
 					user_query = re.sub(r'"(.*?)"', "", user_query)
 					non_quote_terms = []
@@ -625,4 +628,4 @@ if __name__ == "__main__":
 				#st.write(json_body)
 			if flag:
 				fetch(session, uri, headers, json_body, st.session_state.option, user_query)
-				submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
+			submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
