@@ -2,8 +2,6 @@ from elasticsearch import Elasticsearch
 import json
 import requests
 import nltk
-# nltk.download("punkt")
-# nltk.download("stopwords")
 import re
 import spacy
 from nltk.tokenize import word_tokenize
@@ -17,11 +15,15 @@ stops = set(stopwords.words("english"))
 import enchant
 import hashlib
 import sqlite3
-
+from nltk.stem import WordNetLemmatizer
 import pandas as pd
 import base64
 import io
 from github import Github
+# nltk.download("punkt")
+# nltk.download("stopwords")
+nltk.download('omw-1.4')
+lm = WordNetLemmatizer()
 
 # Github credentials
 g = Github('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')
@@ -128,6 +130,16 @@ def levenshtein_strings(word, distance):
             if levenshtein_distance(new_word, word) <= distance and d.check(new_word):
                 result.add(new_word)
     return result
+
+def pre_process(content):
+	textwords = nltk.word_tokenize(content.lower())
+	words_final = []
+	for word in textwords:
+		if word not in stops:
+			words_final.append(lm.lemmatize(word))
+			
+	processed_text = ' '.join(words_final)
+	return processed_text
 
 @st.cache(allow_output_mutation=True)
 def load_model():
