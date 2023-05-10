@@ -282,6 +282,7 @@ if __name__ == "__main__":
 				"search_analyzer": {
 				"tokenizer": "standard",
 				"filter": [
+					"stop",
 					"my_synonyms",
 					"all_synonyms",
 					"stemmer"
@@ -290,6 +291,7 @@ if __name__ == "__main__":
 				"search_analyzer_basic": {
 					"tokenizer": "standard",
 					"filter": [
+						"stop",
 						"my_synonyms",
 						"stemmer"
 					]
@@ -383,229 +385,229 @@ if __name__ == "__main__":
 
 
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_close")
-# 	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_settings", headers= headers, data = new_settings)
-# 	if response.status_code == 200:
-# 		st.write("Index settings updated successfully")
-# 	else:
-# 		st.write(f"Error updating index settings: {response.text}")
+	response = requests.put(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_settings", headers= headers, data = new_settings)
+	if response.status_code == 200:
+		st.write("Index settings updated successfully")
+	else:
+		st.write(f"Error updating index settings: {response.text}")
 # 	requests.post(f"https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_open")
-	st.title("IIT Palakkad Search Portal")
-	st.sidebar.image("iit-palakkad-logo.png")
-	if "load" not in st.session_state:
-		st.session_state.load = 0
+# 	st.title("IIT Palakkad Search Portal")
+# 	st.sidebar.image("iit-palakkad-logo.png")
+# 	if "load" not in st.session_state:
+# 		st.session_state.load = 0
 	
-	menu = ["Login","SignUp"]
-	choice = st.sidebar.selectbox("Menu",menu)
+# 	menu = ["Login","SignUp"]
+# 	choice = st.sidebar.selectbox("Menu",menu)
 	
-	if choice == "Login":
-		username = st.sidebar.text_input("User Name", key="text_input")
-		password = st.sidebar.text_input("Password", type='password')
+# 	if choice == "Login":
+# 		username = st.sidebar.text_input("User Name", key="text_input")
+# 		password = st.sidebar.text_input("Password", type='password')
 
-		if st.sidebar.checkbox("Login"):
-			create_usertable()
-			hashed_pswd = make_hashes(password)
-			result = login_user(username,check_hashes(password,hashed_pswd))
-			if result:
-				st.success("Logged In as {}".format(username))
-				main()
-				password = ""
-			else:
-				st.warning("Incorrect Username/Password")
+# 		if st.sidebar.checkbox("Login"):
+# 			create_usertable()
+# 			hashed_pswd = make_hashes(password)
+# 			result = login_user(username,check_hashes(password,hashed_pswd))
+# 			if result:
+# 				st.success("Logged In as {}".format(username))
+# 				main()
+# 				password = ""
+# 			else:
+# 				st.warning("Incorrect Username/Password")
 
-	elif choice == "SignUp":
-		st.subheader("Create New Account")
-		new_user = st.text_input("Username")
-		new_password = st.text_input("New Password",type='password', value = '')
+# 	elif choice == "SignUp":
+# 		st.subheader("Create New Account")
+# 		new_user = st.text_input("Username")
+# 		new_password = st.text_input("New Password",type='password', value = '')
 
-		if st.button("Signup"):
-			create_usertable()
-			try:
-				add_userdata(new_user,make_hashes(new_password))
-				st.success("You have successfully created a valid Account")
-				st.info("Go to Login Menu to login")
-			except Exception as e:
-				st.write("A user already exists with that name. Please choose a different name")
-	if st.session_state.load:
-		with st.form("form_2"):
-			user_query = st.session_state.search
-			st.session_state.load = 1
-			session = requests.Session()
-			uri=""
-			if st.session_state.option != "Image":
-				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_search/?size=10'
-			else:
-				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
-			json_body = ""
-			if st.session_state.option == "Phrase":
-				nlp = load_model()
-				pattern = re.compile('[^\w\- ]')
-				user_query = re.sub(pattern, '', user_query)
-				doc = nlp(user_query)
-				ners = [str(i) for i in doc.ents]
+# 		if st.button("Signup"):
+# 			create_usertable()
+# 			try:
+# 				add_userdata(new_user,make_hashes(new_password))
+# 				st.success("You have successfully created a valid Account")
+# 				st.info("Go to Login Menu to login")
+# 			except Exception as e:
+# 				st.write("A user already exists with that name. Please choose a different name")
+# 	if st.session_state.load:
+# 		with st.form("form_2"):
+# 			user_query = st.session_state.search
+# 			st.session_state.load = 1
+# 			session = requests.Session()
+# 			uri=""
+# 			if st.session_state.option != "Image":
+# 				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_search/?size=10'
+# 			else:
+# 				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
+# 			json_body = ""
+# 			if st.session_state.option == "Phrase":
+# 				nlp = load_model()
+# 				pattern = re.compile('[^\w\- ]')
+# 				user_query = re.sub(pattern, '', user_query)
+# 				doc = nlp(user_query)
+# 				ners = [str(i) for i in doc.ents]
 				
-				tokens = []
-				for ent in ners:
-					for token in nltk.word_tokenize(ent):
-						tokens.append(token)
+# 				tokens = []
+# 				for ent in ners:
+# 					for token in nltk.word_tokenize(ent):
+# 						tokens.append(token)
 
-				for i in user_query.split():
-					if i not in tokens and i not in stops:
-						ners.append(i.lower())
+# 				for i in user_query.split():
+# 					if i not in tokens and i not in stops:
+# 						ners.append(i.lower())
 
-				final_query_words = []
-				for i in ners:
-					final_query_words.append(''' \\"''' + i + '''\\" ''')
+# 				final_query_words = []
+# 				for i in ners:
+# 					final_query_words.append(''' \\"''' + i + '''\\" ''')
 
-				final_query = ' '.join(final_query_words)		
-				print(final_query)
-				
-				
-				json_body = '''
-				{	"query": 
-					{
-						"multi_match" : {
-						"query":      "match_part",
-						"type":       "phrase",
-						"fields":     [ "title^4", "text" ],
-						"analyzer": "search_analyzer",
-						"slop" : "prox"
-						}
-					},
-					"highlight": 
-					{
-						"fields" : 
-						{
-							"text" : {}, "title" : {}
-						}
-					}
-				}'''
+# 				final_query = ' '.join(final_query_words)		
+# 				print(final_query)
 				
 				
+# 				json_body = '''
+# 				{	"query": 
+# 					{
+# 						"multi_match" : {
+# 						"query":      "match_part",
+# 						"type":       "phrase",
+# 						"fields":     [ "title^4", "text" ],
+# 						"analyzer": "search_analyzer",
+# 						"slop" : "prox"
+# 						}
+# 					},
+# 					"highlight": 
+# 					{
+# 						"fields" : 
+# 						{
+# 							"text" : {}, "title" : {}
+# 						}
+# 					}
+# 				}'''
 				
-				json_body = json_body.replace("match_part", final_query)
-				json_body = json_body.replace("prox", str(int(st.session_state.prox_value)))
 				
-			elif st.session_state.option == "Quotes":
-				match_phrase = re.findall(r'"(.*?)"',user_query)
-				if len(match_phrase)==0:
-					st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
-				else:
-					user_query = re.sub(r'"(.*?)"', "", user_query)
-					non_quote_terms = []
-					for i in user_query.split():
-						if i not in stops:
-							non_quote_terms.append(i)
-
-					boolean_query = ""
-					for i in match_phrase:
-						if len(boolean_query) == 0:
-							boolean_query = "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
-						else:
-							boolean_query = boolean_query + " AND " +  "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
-					if len(boolean_query) != 0:
-						boolean_query = "(" + boolean_query + ")"
-
-					#Default fuzziness is 2 sufficient to catch 80% of spelling mistakes
-					for i in non_quote_terms:
-						boolean_query = boolean_query + " OR " + "(" + i + "~)"
-
-					print(boolean_query)
-					json_body = '''
-						{
-							"query" : 
-							{
-								"query_string": {
-									"query": "match_part",
-									"fields" : ["title^2", "text"]
-								}
-							},
-							"highlight": {
-								"fields" : {
-								"text" : {}, "title" : {}
-								}
-							}
-						}
-						'''
-					json_body = json_body.replace("match_part", boolean_query)
-					#st.write(json_body)
 				
-			elif st.session_state.option == "Keyword":
-				pattern = re.compile('[^\w\- ]')
-				user_query = re.sub(pattern, '', user_query)
-				processed_query = pre_process(user_query)
-				combined_query = user_query + ' ' + processed_query
-				json_body = '''
-				{
-					"query": 
-					{
-						"function_score": 
-						{
-							"query": 
-							{
-								"bool": 
+# 				json_body = json_body.replace("match_part", final_query)
+# 				json_body = json_body.replace("prox", str(int(st.session_state.prox_value)))
+				
+# 			elif st.session_state.option == "Quotes":
+# 				match_phrase = re.findall(r'"(.*?)"',user_query)
+# 				if len(match_phrase)==0:
+# 					st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
+# 				else:
+# 					user_query = re.sub(r'"(.*?)"', "", user_query)
+# 					non_quote_terms = []
+# 					for i in user_query.split():
+# 						if i not in stops:
+# 							non_quote_terms.append(i)
+
+# 					boolean_query = ""
+# 					for i in match_phrase:
+# 						if len(boolean_query) == 0:
+# 							boolean_query = "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
+# 						else:
+# 							boolean_query = boolean_query + " AND " +  "(" + ' AND '.join(["(" + j + ")" for j in i.split()]) + ")"
+# 					if len(boolean_query) != 0:
+# 						boolean_query = "(" + boolean_query + ")"
+
+# 					#Default fuzziness is 2 sufficient to catch 80% of spelling mistakes
+# 					for i in non_quote_terms:
+# 						boolean_query = boolean_query + " OR " + "(" + i + "~)"
+
+# 					print(boolean_query)
+# 					json_body = '''
+# 						{
+# 							"query" : 
+# 							{
+# 								"query_string": {
+# 									"query": "match_part",
+# 									"fields" : ["title^2", "text"]
+# 								}
+# 							},
+# 							"highlight": {
+# 								"fields" : {
+# 								"text" : {}, "title" : {}
+# 								}
+# 							}
+# 						}
+# 						'''
+# 					json_body = json_body.replace("match_part", boolean_query)
+# 					#st.write(json_body)
+				
+# 			elif st.session_state.option == "Keyword":
+# 				pattern = re.compile('[^\w\- ]')
+# 				user_query = re.sub(pattern, '', user_query)
+# 				processed_query = pre_process(user_query)
+# 				combined_query = user_query + ' ' + processed_query
+# 				json_body = '''
+# 				{
+# 					"query": 
+# 					{
+# 						"function_score": 
+# 						{
+# 							"query": 
+# 							{
+# 								"bool": 
 							
-								{
-									"should": 
-									[
-										{ "match": { "title": { "query" : "processed_query", "analyzer": "search_analyzer_basic", "boost": 7 }}},
-										{"match": {"processed_text":  {"query" : "processed_query", "analyzer": "search_analyzer_basic", "boost": 5}}},
-										{"match": {"text":  {"query" : "combined_query", "analyzer" : "search_analyzer_basic", "boost": 0}}},
-										{ "match": { "title": { "query" : "processed_query",  "analyzer": "search_analyzer", "boost":3}}},
-										{"match": {"processed_text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
-										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost": 0}}},
-										{ "match": { "processed_text": { "query" : "processed_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}},
-										{ "match": { "text": { "query" : "combined_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer", "boost" : 0}}}
-									]
-								}
-							},
-							"score_mode": "sum",
-							"boost_mode": "sum"
-						}
-					}
-						,
-							"highlight": 
-								{
-									"fields" : 
-									{
-										"text" : {}, "title" : {}
-									}
-								}		
-				}
-				'''
+# 								{
+# 									"should": 
+# 									[
+# 										{ "match": { "title": { "query" : "processed_query", "analyzer": "search_analyzer_basic", "boost": 7 }}},
+# 										{"match": {"processed_text":  {"query" : "processed_query", "analyzer": "search_analyzer_basic", "boost": 5}}},
+# 										{"match": {"text":  {"query" : "combined_query", "analyzer" : "search_analyzer_basic", "boost": 0}}},
+# 										{ "match": { "title": { "query" : "processed_query",  "analyzer": "search_analyzer", "boost":3}}},
+# 										{"match": {"processed_text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost":2}}},
+# 										{"match": {"text":  {"query" : "user_query", "analyzer": "search_analyzer", "boost": 0}}},
+# 										{ "match": { "processed_text": { "query" : "processed_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer"}}},
+# 										{ "match": { "text": { "query" : "combined_query", "fuzziness" : "AUTO", "analyzer": "search_analyzer", "boost" : 0}}}
+# 									]
+# 								}
+# 							},
+# 							"score_mode": "sum",
+# 							"boost_mode": "sum"
+# 						}
+# 					}
+# 						,
+# 							"highlight": 
+# 								{
+# 									"fields" : 
+# 									{
+# 										"text" : {}, "title" : {}
+# 									}
+# 								}		
+# 				}
+# 				'''
 
-				json_body = json_body.replace("user_query", user_query)
-				json_body = json_body.replace("processed_query", processed_query)
-				json_body = json_body.replace("combined_query", combined_query)
-			elif st.session_state.option == "Image":
-				processed_tokens = []
-				for i in nltk.word_tokenize(user_query):
-					if i not in stops:
-						processed_tokens.append(i)
+# 				json_body = json_body.replace("user_query", user_query)
+# 				json_body = json_body.replace("processed_query", processed_query)
+# 				json_body = json_body.replace("combined_query", combined_query)
+# 			elif st.session_state.option == "Image":
+# 				processed_tokens = []
+# 				for i in nltk.word_tokenize(user_query):
+# 					if i not in stops:
+# 						processed_tokens.append(i)
 
-				user_query = ' '.join(processed_tokens)
-				pattern = re.compile('[^\w\- ]')
-				user_query = re.sub(pattern, '', user_query)
-				st.write(user_query)
-				json_body = """{
-								"query":
-										{
-											"bool":
-											{
-												"should":[
-														{"match": {"title": {"boost" : 5, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
-														{"match": {"section": {"boost" : 6, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
-														{"match": {"processed_desc":{"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
-														{"match": {"title": {"boost" : 2, "query" : "user_query", "analyzer": "search_analyzer"}}},
-														{"match": {"section": {"boost" : 3, "query" : "user_query", "analyzer": "search_analyzer"}}},
-														{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}}
-														],
-												"minimum_should_match" : 1
-											}
-										}
-								}
-				"""
-				json_body = json_body.replace("user_query", user_query)
-				#st.write(json_body)
+# 				user_query = ' '.join(processed_tokens)
+# 				pattern = re.compile('[^\w\- ]')
+# 				user_query = re.sub(pattern, '', user_query)
+# 				st.write(user_query)
+# 				json_body = """{
+# 								"query":
+# 										{
+# 											"bool":
+# 											{
+# 												"should":[
+# 														{"match": {"title": {"boost" : 5, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+# 														{"match": {"section": {"boost" : 6, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+# 														{"match": {"processed_desc":{"boost" : 4, "query" : "user_query", "analyzer": "search_analyzer_basic"}}},
+# 														{"match": {"title": {"boost" : 2, "query" : "user_query", "analyzer": "search_analyzer"}}},
+# 														{"match": {"section": {"boost" : 3, "query" : "user_query", "analyzer": "search_analyzer"}}},
+# 														{"match": {"processed_desc": {"boost" : 1, "query" : "user_query", "analyzer": "search_analyzer"}}}
+# 														],
+# 												"minimum_should_match" : 1
+# 											}
+# 										}
+# 								}
+# 				"""
+# 				json_body = json_body.replace("user_query", user_query)
+# 				#st.write(json_body)
 
-			fetch(session, uri, headers, json_body, st.session_state.option, user_query)
-			submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
+# 			fetch(session, uri, headers, json_body, st.session_state.option, user_query)
+# 			submitted = st.form_submit_button("Submit Feedback", on_click = callback, args = [st.session_state.count])
