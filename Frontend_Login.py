@@ -574,7 +574,8 @@ if __name__ == "__main__":
 				'''
 
 				json_body = json_body.replace("user_query", user_query)
-			
+				json_body = json_body.replace("processed_query", processed_query)
+				json_body = json_body.replace("combined_query", combined_query)
 			elif st.session_state.option == "Image":
 				processed_tokens = []
 				for i in nltk.word_tokenize(user_query):
