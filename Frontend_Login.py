@@ -22,7 +22,7 @@ import io
 from github import Github
 # nltk.download("punkt")
 # nltk.download("stopwords")
-nltk.download('omw-1.4')
+#nltk.download('omw-1.4')
 lm = WordNetLemmatizer()
 
 # Github credentials
