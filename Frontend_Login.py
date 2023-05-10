@@ -150,7 +150,7 @@ def callback(count):
 	#filename = "evaluation_results.csv"
 	for i in range(1, count+1):
 		repo = g.get_repo(f'{owner}/{repo_name}')
-		df = pd.DataFrame(columns = ['Type of query', 'Query', 'Proximity Value', 'Rank', 'Score', 'Link', 'Rank', 'Feedback'])
+		df = pd.DataFrame(columns = ['Type of query', 'Query', 'Proximity Value', 'Rank', 'Score', 'Link', 'Feedback'])
 		try:
 			file_contents = get_file_contents(repo, path)
 			df = pd.read_csv(io.StringIO(file_contents))
