@@ -260,7 +260,7 @@ def main():
 	if 'submitted_1' not in st.session_state:
 		st.session_state['submitted_1'] = 0
 	if 'search' not in st.session_state:
-		st.session_state['search'] = None
+		st.session_state['search'] = ""
 	with st.form("my_form"):
 		st.write("Please Enlcose the mandatory words to include in matches in double quotes only for **Quotes Query**")
 		_ = st.text_input('Please Enter Your Search Query', key="search")
