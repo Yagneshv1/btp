@@ -165,7 +165,7 @@ def callback(count):
 		new_file_contents = df.to_csv(index=False)
 		commit_message = "Update CSV file"
 		update_file_contents(repo, path, new_file_contents, commit_message)
-		st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
+	st.write("**Thank You! Your Feedback is submitted successfully! Please proceed for next search**")
 
 def retrieve_required_results(output, option, query):
 	#st.write(output)
