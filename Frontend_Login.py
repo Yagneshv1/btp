@@ -196,8 +196,15 @@ def retrieve_required_results(output, option, query):
 						snippet += a + '...'
 					snippet = snippet.replace("<em>", "**")
 					snippet = snippet.replace("</em>", "**")
-
-					st.write('Page Title:', result['_source']['title'])
+					matches = result['highlight']['title']
+					titl = ''
+					for a in matches:
+						titl += a
+					titl = titl.replace("<em>", "**")
+					titl = titl.replace("</em>", "**")
+					st.markdown(titl, unsafe_allow_html=False)
+					
+					#st.write('Page Title:', result['_source']['title'])
 					
 				except:
 					matches = result['highlight']['title']
