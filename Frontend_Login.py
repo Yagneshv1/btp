@@ -205,8 +205,8 @@ def retrieve_required_results(output, option, query):
 						titl = titl.replace("</em>", "**")
 						st.markdown(titl, unsafe_allow_html=False)
 					except:
-						pass
-					#st.write('Page Title:', result['_source']['title'])
+						st.write(result['_source']['title'])
+					
 					
 				except:
 					matches = result['highlight']['title']
