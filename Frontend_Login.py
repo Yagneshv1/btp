@@ -453,8 +453,9 @@ if __name__ == "__main__":
 			else:
 				uri=f'https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size={max_results}'
 			json_body = ""
-			flag = 1
+			flag = 0
 			if st.session_state.option == "Phrase":
+				flag = 1
 				nlp = load_model()
 				pattern = re.compile('[^\w\- ]')
 				user_query = re.sub(pattern, '', user_query)
@@ -503,6 +504,7 @@ if __name__ == "__main__":
 				json_body = json_body.replace("match_part", final_query)
 				json_body = json_body.replace("prox", str(int(st.session_state.prox_value)))
 			elif st.session_state.option == "Quotes":
+				flag = 1
 				match_phrase = re.findall(r'"(.*?)"',user_query)
 				if len(match_phrase)==0:
 					st.write("**No Quotes Found in Specified Query. Please enclose atleast one word in double Quotes**")
@@ -552,6 +554,7 @@ if __name__ == "__main__":
 					#st.write(json_body)
 				
 			elif st.session_state.option == "Keyword":
+				flag = 1
 				pattern = re.compile('[^\w\- ]')
 				user_query = re.sub(pattern, '', user_query)
 				processed_query = pre_process(user_query)
@@ -599,6 +602,7 @@ if __name__ == "__main__":
 				json_body = json_body.replace("processed_query", processed_query)
 				json_body = json_body.replace("combined_query", combined_query)
 			elif st.session_state.option == "Image":
+				flag = 1
 				processed_tokens = []
 				for i in nltk.word_tokenize(user_query):
 					if i not in stops:
