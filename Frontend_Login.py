@@ -60,7 +60,7 @@ headers = {
     "Content-Type": "application/json",
     "Authorization": f"Basic {encoded_credentials}",
 }
-
+max_results = 10
 def make_hashes(password):
 	return hashlib.sha256(str.encode(password)).hexdigest()
 
@@ -253,7 +253,7 @@ def fetch(session, url, headers, json_body, option, query):
 
 def callback_1():
 	st.session_state.load = 1
-	for i in range(1, 11):
+	for i in range(1, max_results+1):
 		st.session_state[str(i)] = "➖"
 
 def main():
@@ -445,9 +445,9 @@ if __name__ == "__main__":
 			session = requests.Session()
 			uri=""
 			if st.session_state.option != "Image":
-				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_search/?size=10'
+				uri=f'https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test1/_search/?size={max_results}'
 			else:
-				uri='https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size=10'
+				uri=f'https://my-deployment-3de21f.es.us-central1.gcp.cloud.es.io/test_image/_search/?size={max_results}'
 			json_body = ""
 			if st.session_state.option == "Phrase":
 				nlp = load_model()
