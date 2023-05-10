@@ -282,17 +282,17 @@ if __name__ == "__main__":
 				"search_analyzer": {
 				"tokenizer": "standard",
 				"filter": [
-					"stop",
 					"my_synonyms",
 					"all_synonyms",
+					"stop",
 					"stemmer"
 				]
 				},
 				"search_analyzer_basic": {
 					"tokenizer": "standard",
 					"filter": [
-						"stop",
 						"my_synonyms",
+						"stop",
 						"stemmer"
 					]
 				}
