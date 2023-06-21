@@ -31,6 +31,7 @@ def pre_process(content):
 	processed_text = ' '.join(words_final)
 	return processed_text
 
+#For each file in the directory where text scraped files are stored, we pre-process and append to the result which is finally converted to json.
 for filename in os.listdir(os.getcwd() + "/scraped_text"):
 	if filename.endswith('.json'):
 		with open("scraped_text/" + filename) as open_file:
@@ -38,9 +39,8 @@ for filename in os.listdir(os.getcwd() + "/scraped_text"):
 			record = {"index" : {"_index" : "test1", "_id" : count}}
 			result.append(json.dumps(record))
 			inp = json.load(open_file)
-
 			result.append(json.dumps(inp))
-			#break
 
+#Output shall be redirected to a .out file
 for k in result:
 	print(k)
