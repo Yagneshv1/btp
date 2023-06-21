@@ -4,12 +4,17 @@
 Smart Search Engine to Handle Phrase Queries
 
 ## Description
-This project implements a search engine using Elastic Search Framework for IIT Palakkad Institute website which supports features like
+This project implements a search engine using Elastic Search Framework for IIT Palakkad Institute website which supports various types of queries like
 - Keyword Search
 - Phrase Queries
 - Quotes Queries
 - Image Queries
 
+The other significant features of the project include
+- Snippet Generation
+- Highlighting the matches
+- Fuzziness
+- Actual Image Rendering
 
 ## Usage
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
