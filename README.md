@@ -18,9 +18,9 @@ The other significant features of the project include
 - Synonyms and Abbreviations
 
 ## File Organisation
-The contents of the files in this repository are as follows:
 
--Front_end_test_version.py: Code implementation of the backend to implement various kinds of queries and features and the frontend streamlit interface code and ways to collect the evaluation results in test version.
+The contents of the files in this repository are as follows:
+- Front_end_test_version.py: Code implementation of the backend to implement various kinds of queries and features and the frontend streamlit interface code and ways to collect the evaluation results in test version.
 -Image_Scraping_Newwebsite.py: Code implementation to scrape the images in the new institute website.
 -Text_Scraping_OldWebsite.py: Code implementation for text scraping of old institute website.
 -Text_processed_Dec13.out: Scraped text data from the old institute website as of Dec 13, 2022.
