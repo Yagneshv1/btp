@@ -1,3 +1,6 @@
+#Code Implementation to perform image Scraping on the new website
+
+#Import necessary libraries
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -5,18 +8,25 @@ import csv
 import os
 import json
 
-url_re = r'https://(.*?)/'
+#Regex to extract only the first part in website URL url_re = r'https://(.*?)/'
 url_pattern = re.compile(url_re, flags=re.DOTALL)
 
 class ImageScraper:
+    '''
+    Image Scraper class to scrape the contents for each image.
+    '''
     def __init__(self, link, title):
         self.image_dict = {}
         self.pagelink = link
         self.title = title
     
     def extract_text(self, a, header_string):
+	'''
+ 	Extracts the required text from the input HTML to the function.
+ 	'''
         for k in a:
             soup = BeautifulSoup(k[0], 'lxml')
+	    #When relative paths are given in the image source URl, it is to be combined with the URL of the page.
             if k[1].startswith("/"):
                 try:
                     b = url_pattern.findall(self.pagelink)[0] + k[1]
@@ -24,6 +34,7 @@ class ImageScraper:
                 except:
                     b = self.pagelink + k[1]
                     k = (k[0], b)
+	    #If already a description exists for the Image, we append the subsequent descriptions. Used when image has description before and after it.
             try:
                 x = self.image_dict.get(k[1])
                 x[1] += soup.getText()
@@ -32,18 +43,25 @@ class ImageScraper:
                 self.image_dict[k[1]] = [header_string, soup.getText().strip()]
 
     def extract_text_regex(self, inp, header_string):
-        r1 = r'(<p>.*?<img.*?src="(.*?)")'
-        r2 = r'(<li>.*?<img.*?src="(.*?)")'
-        r3 = r'(<ul>.*?<img.*?src="(.*?)")'
-        r4 = r'(<br>.*?<img.*?src="(.*?)")'
-        r9 = r'(<a>.*?<img.*?src="(.*?)")'
+	'''
+ 	Extracts the description for the image with text under various tags before and after the image.
+ 	'''
+	#Header string could be section in which the image is present or the overall page title depending on the case as passed to the function.
+	    
+	#Regular expressions to consider various possible image descriptions
+        r1 = r'(<p>.*?<img.*?src="(.*?)")'	# p before the image
+        r2 = r'(<li>.*?<img.*?src="(.*?)")'	# li before the image
+        r3 = r'(<ul>.*?<img.*?src="(.*?)")'	# ul before the image
+        r4 = r'(<br>.*?<img.*?src="(.*?)")'	# br before the image
+        r9 = r'(<a>.*?<img.*?src="(.*?)")'	# a before the image
 
-        r5 = r'(<img.*?src="(.*?)".*?</p>)'
-        r6 = r'(<img.*?src="(.*?)".*?</li>)'
-        r7 = r'(<img.*?src="(.*?)".*?</ul>)'
-        r8 = r'(<img.*?src="(.*?)".*?</br>)'
-        r10 = r'(<img.*?src="(.*?)".*?</a>)'
+        r5 = r'(<img.*?src="(.*?)".*?</p>)'	# p after the image
+        r6 = r'(<img.*?src="(.*?)".*?</li>)'	# li after the image
+        r7 = r'(<img.*?src="(.*?)".*?</ul>)'	# ul after the image
+        r8 = r'(<img.*?src="(.*?)".*?</br>)'	# br after the image
+        r10 = r'(<img.*?src="(.*?)".*?</a>)'	# a after the image
 
+	# Compile all the patterns
         prev_pattern_1 = re.compile(r1, flags=re.DOTALL)
         prev_pattern_2 = re.compile(r2, flags=re.DOTALL)
         prev_pattern_3 = re.compile(r3, flags=re.DOTALL)
@@ -57,6 +75,7 @@ class ImageScraper:
         next_pattern_5 = re.compile(r10, flags=re.DOTALL)
 
         a = []
+	#Try to find the description of the image before it. If p is not possible go for other options.
         try:
             a += prev_pattern_1.findall(inp)
             s = a[0]
@@ -69,6 +88,7 @@ class ImageScraper:
             a += prev_pattern_5.findall(inp)
             self.extract_text(a, header_string)
 
+	#Similarly try for image description after the image.
         a = []
         try:
             a += next_pattern_1.findall(inp)
@@ -87,7 +107,8 @@ class ImageScraper:
         r = requests.get(self.pagelink, timeout=10)	#Get the site request
         
         soup = BeautifulSoup(r.content, 'html.parser')	#Parse HTML of page
-        #Taking out the main content of the HTML page and convert to string after removing the title block.
+	    
+        #Taking out the main content of the HTML page and converting to the string after removing the title block and header and footer sections.
         html = None
         if not self.pagelink == "https://iitpkd.ac.in" or self.pagelink == "https://iitpkd.ac.in/":
             try:
@@ -120,19 +141,24 @@ class ImageScraper:
             pass
         
         string_content = str(html)
-        #print(string_content)
-        #Now, we need to get the HTML with the required header area. This will give all the images and their block areas
+        
+        #Now, we need to get the HTML with the required header area. This will give all the images and their block areas.
+	    
+	#Regular expression to identify various sections with images within a page along with the headers.
+	#First case to handle cases where image section has other header after it. (Eg. <h1>...img </h1>...<h2>)
+	#Second case to handle cases where there are no sections after the section that has image. (Eg. <h1>...img </h1>...)
+	    
         header_re = r"(<h\d.*?>(.*?)</h\d.*?<img.*?)(?=<h)|(<h\d.*?>(.*?)</h\d.*?<img.*)"
         header_pattern = re.compile(header_re, flags=re.DOTALL)
         content = header_pattern.findall(string_content)
         
         #print('The length is', len(content))
         if len(content) == 0:
-            #Case when no headers are there just the page and image. In this just take the entire page into consideration.
+            #When no headers are there, we just have the page with images w/o sections. In this just take the entire page into consideration.
             self.extract_text_regex(string_content, self.title)
 
         else:
-            #When we are able to capture the headers
+            #When we are able to capture the headers on the page
             for i in content:
                 if i[0] == '':
                     self.extract_text_regex(i[2], i[3])
@@ -172,6 +198,9 @@ def pre_process(site):
     return True
 
 def scrape(site, count=30):
+    '''
+    Function to perform image scraping on a specific site.
+    '''
     global pages
     global num_links
     global no_threshold
@@ -182,7 +211,9 @@ def scrape(site, count=30):
 
     #print(pages)
     print("\n\n")
-    if(count == 0):		#Once we got the limit we simply return 
+
+    #Check if the page has necessary threshold to go further
+    if(count == 0): 
         no_threshold += 1
         return
 
@@ -191,16 +222,18 @@ def scrape(site, count=30):
     if(site.startswith("http:")):	#For http site connection issues occur so replace to https
         site = site.replace("http:", "https:")	
 
+    #Check if the site is a valid page to be scraped.
     if not pre_process(site):
         failed_preprocess += 1
         return
 
-    print("Extracting the page", site)
+    #print("Extracting the page", site)
     try:
         r = requests.get(site, timeout=10)	#Get the site request
     except:
         return
-    
+
+    #Extract the HTML content of the page and try to extract the title from possible sections.
     soup = BeautifulSoup(r.content, 'html.parser')	#Parse HTML of page
     title = ''
     try:
@@ -214,7 +247,8 @@ def scrape(site, count=30):
     if title.__contains__("/"):		#Avoid / in file name creation. So, just replace.
         title = title.replace("/", " ")
 
-    if site.__contains__("https://iitpkd.ac.in"):	#For pages in iitpkd we have main defined for the content except for the home page.
+    # For pages inside the domain, all the content is in block-iitpkd-content tag.
+    if site.__contains__("https://iitpkd.ac.in"):	
         if site != "https://iitpkd.ac.in" and site != "https://iitpkd.ac.in/" and site != "https://iitpkd.ac.in/hi":
             soup = soup.find(id = "block-iitpkd-content")	#For homepage we need all links for redirection.
 	
@@ -223,21 +257,22 @@ def scrape(site, count=30):
 
     images_desc = {}
 
+    #Sites where a lot of images are present as a list are ignored.
     if site not in ["https://iitpkd.ac.in/gallery", "https://iitpkd.ac.in/faculty-list", "https://iitpkd.ac.in/adjunct-faculty", "https://iitpkd.ac.in/research-scholars-list", "https://iitpkd.ac.in/staff-list", "https://iitpkd.ac.in/pmrf"]:
-        a = ImageScraper(site, title)
+        #Create a image scraper object and scrape the site.
+	a = ImageScraper(site, title)
         images_desc = a.scrape()
 	
     links = soup.find_all("a", href = True)			#Find the hyperlinks.
 
-	#Maintains the list of all the links in a page
+    #Maintains the list of all the links in a page
     references = []
     for i in links:
         references.append(i['href'])
 
-	#Creating and writing the json object
+    #Creating and writing the json object
     for k,v in images_desc.items():
         images += 1
-        
         json_obj = {"page_link" : site, "title" : title, "hyperlinks": references, "image_link" : k, "image_desc" : v[1].replace("\n", " "), "section" : v[0]}
         dump = json.dumps(json_obj)
         
@@ -276,7 +311,7 @@ if __name__ == "__main__":
         urls = f.read().split()
 
     URL = urls[0]
-	
+    #Ignored URLs are added to a set so that they are not visited during scraping.
     for u in urls[1:]:
         visited.add(u)
         ignored_start.add(u)
@@ -286,6 +321,8 @@ if __name__ == "__main__":
     os.mkdir("scraped_2_gallery")
     os.chdir(os.getcwd() + "/scraped_2_gallery")
     scrape(URL)
+
+    #Print the required statistics
     print("The total pages scraped are", pages)
     print("The total number of file type pages", value)
     print(num_links/pages)
