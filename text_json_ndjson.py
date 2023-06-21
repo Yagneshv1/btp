@@ -1,5 +1,6 @@
-#Now we need to convert the json files in folder to Ndjson object.
+#Code implementation to convert the JSON text files into a single ndjson object.
 
+#Importing the required nltk libraries for pre-processing
 import os
 import json
 import nltk
@@ -17,6 +18,9 @@ stops = set(stopwords.words("english"))
 lm= WordNetLemmatizer()
 
 def pre_process(content):
+	'''
+ 	Function to pre-process the input content. Involves lowercasing, stopword removal, non-alphanumeric characters removal
+ 	'''
 	textwords = nltk.word_tokenize(content.lower())
 	textwords = [word for word in textwords if word.isalnum()]
 	words_final = []
