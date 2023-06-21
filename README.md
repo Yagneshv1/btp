@@ -9,7 +9,6 @@ This project implements a search engine using Elastic Search Framework for IIT P
 - Phrase Queries
 - Quotes Queries
 - Image Queries
-- 
 
 
 ## Usage
@@ -23,9 +22,10 @@ If you have ideas for releases in the future, it is a good idea to list them in 
 
 
 ## Authors and acknowledgement
--Dr. Koninika Pal(Mentor)
--Katragadda Yagnesh(Team Member)
--Bandaru Rupesh Rahul(Team Member)
+
+- Dr. Koninika Pal(Mentor)
+- Katragadda Yagnesh(Team Member)
+- Bandaru Rupesh Rahul(Team Member)
 
 
 ## Project status
